@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
@@ -13,20 +15,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-
-
-import java.awt.FlowLayout;
-import java.util.ArrayList;
 
 /**
  * This sample code illustrate several Swing techniques:
- * 
+ *
  * 1. Use of split panes
  * 2. Using the CardLayout to switch the view to different panels in the same space
  * 3. Using a JList to control the CardLayout
- * 4. Using a Cell Renderer to control the colors of the list items 
- * 
+ * 4. Using a Cell Renderer to control the colors of the list items
+ *
  * @author corazza
  *
  */
@@ -81,11 +78,11 @@ public class SampleFrame extends JFrame {
 
 		// set up split panes
 
-		JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
+		JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				linkList, cards);
 
 		innerPane.setDividerLocation(60);
-		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
+		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				innerPane, buttonBar);
 		outerPane.setDividerLocation(200);
 		add(outerPane, BorderLayout.CENTER);
@@ -108,7 +105,7 @@ public class SampleFrame extends JFrame {
 			repaint();
 		});
 	}
-	
+
 	public void addRightButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			updateList(group2);
@@ -143,23 +140,23 @@ public class SampleFrame extends JFrame {
 		}
 	}
 
-	
+
 
 	public void createLinkLabels() {
 	    DefaultListModel<ListItem> model = new DefaultListModel<>();
 		model.addElement(item1);
 		model.addElement(item2);
 		model.addElement(item3);
-	
+
 		linkList = new JList(model);
 	    linkList.setCellRenderer(new DefaultListCellRenderer() {
 
 			@SuppressWarnings("rawtypes")
 			@Override
-			public Component getListCellRendererComponent(JList list, 
+			public Component getListCellRendererComponent(JList list,
 					Object value, int index,
 					boolean isSelected, boolean cellHasFocus) {
-				Component c = super.getListCellRendererComponent(list, 
+				Component c = super.getListCellRendererComponent(list,
 						value, index, isSelected, cellHasFocus);
 				if (value instanceof ListItem) {
 					ListItem nextItem = (ListItem) value;

@@ -7,8 +7,8 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * 
- * @author klevi, pcorazza 
+ *
+ * @author klevi, pcorazza
  * @since Oct 22, 2004
  * <p>
  * Class Description: This table model permits manual control over columns -- lets
@@ -31,10 +31,10 @@ import javax.swing.table.AbstractTableModel;
  *
  */
 class CustomTableModel extends AbstractTableModel {
-    
+
 	//this is a List of Object arrays
-    private List<Object[]> tableValues; 
-    
+    private List<Object[]> tableValues;
+
     public void setTableValues(Object [][] vals) {
         tableValues = Arrays.asList(vals);
     }
@@ -47,11 +47,11 @@ class CustomTableModel extends AbstractTableModel {
     	while(it.hasNext()){
     		addRow(it.next());
     	}
-    }    
+    }
     public Object[][] getTableValues() {
         return (Object[][])tableValues.toArray();
     }
-    
+
     /** This convenience method allows addition of a row of type Object.
      * However, this can only be used if row is of type Object[].
      * If not, the method exits without performing any operation.
@@ -61,23 +61,23 @@ class CustomTableModel extends AbstractTableModel {
     	if(row instanceof Object[]){
     		addRow((Object[])row);
     	}
-    	
+
     }
-    
+
     public void addRow(Object[] row){
     	if(tableValues == null){
-    		tableValues = new ArrayList<Object[]>();
+    		tableValues = new ArrayList<>();
     	}
     	tableValues.add(row);
     }
-        
-    
-    /** 
+
+
+    /**
      * Implementation of the table model interface. It returns the
      * the object stored in the model at the specified indices.
      */
     public Object getValueAt(int rowIndex, int colIndex) {
-    	Object[] row = (Object[])tableValues.get(rowIndex);
+    	Object[] row = tableValues.get(rowIndex);
         return row[colIndex];
     }
     /**
@@ -93,12 +93,13 @@ class CustomTableModel extends AbstractTableModel {
         return 0;
     }
     public int getRowCount() {
-        if(tableValues==null) return 0;
+        if(tableValues==null) {
+			return 0;
+		}
         return tableValues.size();
     }
 
 	private static final long serialVersionUID = 3257846584573376055L;
-	    
+
 
 }
-     

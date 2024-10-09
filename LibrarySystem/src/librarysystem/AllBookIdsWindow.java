@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,17 +20,18 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	public static final AllBookIdsWindow INSTANCE = new AllBookIdsWindow();
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
-	
+
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
 	private TextArea textArea;
-	
+
 
 	//Singleton class
 	private AllBookIdsWindow() {}
-	
+
+	@Override
 	public void init() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -45,7 +44,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		getContentPane().add(mainPanel);
 		isInitialized = true;
 	}
-	
+
 	public void defineTopPanel() {
 		topPanel = new JPanel();
 		JLabel AllIDsLabel = new JLabel("All Book IDs");
@@ -53,7 +52,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		topPanel.add(AllIDsLabel);
 	}
-	
+
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
@@ -61,31 +60,31 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		textArea = new TextArea(8, 20);
 		//populateTextArea();
 		middlePanel.add(textArea);
-		
+
 	}
-	
+
 	public void defineLowerPanel() {
-		
+
 		JButton backToMainButn = new JButton("<= Back to Main");
 		backToMainButn.addActionListener(new BackToMainListener());
 		lowerPanel = new JPanel();
-		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));;
+		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		lowerPanel.add(backToMainButn);
 	}
-	
+
 	class BackToMainListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			LibrarySystem.hideAllWindows();
 			LibrarySystem.INSTANCE.setVisible(true);
-    		
+
 		}
 	}
-	
+
 	public void setData(String data) {
 		textArea.setText(data);
 	}
-	
+
 //	private void populateTextArea() {
 //		//populate
 //		List<String> ids = ci.allBookIds();
@@ -106,6 +105,6 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 	@Override
 	public void isInitialized(boolean val) {
 		isInitialized = val;
-		
+
 	}
 }

@@ -9,7 +9,9 @@ public class ListItem {
     }
 	@Override
 	public boolean equals(Object ob) {
-		if(ob.getClass() != ListItem.class) return false;
+		if(ob.getClass() != ListItem.class) {
+			return false;
+		}
 		ListItem item = (ListItem)ob;
 		return itemName.equals(item.itemName);
 	}

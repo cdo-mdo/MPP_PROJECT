@@ -1,12 +1,15 @@
 package lab_app;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
 
 
 public class Main {
    public static void main(String[] args) {
-      EventQueue.invokeLater(() -> 
+      EventQueue.invokeLater(() ->
          {
             JFrame frame = new BookClub();
             frame.setTitle("Book Club");
@@ -15,7 +18,7 @@ public class Main {
             frame.setVisible(true);
          });
    }
-   
+
    public static void centerFrameOnDesktop(Component f) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		int height = toolkit.getScreenSize().height;

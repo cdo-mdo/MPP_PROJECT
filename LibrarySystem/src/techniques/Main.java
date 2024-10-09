@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 public class Main {
 	public static void main(String[] args) {
-	      EventQueue.invokeLater(() -> 
+	      EventQueue.invokeLater(() ->
 	         {
 	            JFrame frame = new SampleFrame();
 	            frame.setTitle("Sample Frame");
@@ -17,7 +17,7 @@ public class Main {
 	            frame.setVisible(true);
 	         });
 	   }
-	   
+
 	   public static void centerFrameOnDesktop(Component f) {
 			Toolkit toolkit = Toolkit.getDefaultToolkit();
 			int height = toolkit.getScreenSize().height;

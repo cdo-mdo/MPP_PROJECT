@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 
 public class AllBookTitles implements MessageableWindow {
-	
+
 	public JPanel getMainPanel() {
 		return mainPanel;
 	}
@@ -19,9 +19,9 @@ public class AllBookTitles implements MessageableWindow {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private TextArea textArea;
-	
 
-	
+
+
 	public AllBookTitles() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -29,9 +29,9 @@ public class AllBookTitles implements MessageableWindow {
 		defineMiddlePanel();
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);
-		
+
 	}
-	
+
 	public void defineTopPanel() {
 		topPanel = new JPanel();
 		JLabel titlesLabel = new JLabel("View Titles");
@@ -39,7 +39,7 @@ public class AllBookTitles implements MessageableWindow {
 		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(titlesLabel);
 	}
-	
+
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 25, 25);
@@ -47,9 +47,10 @@ public class AllBookTitles implements MessageableWindow {
 		textArea = new TextArea(8, 20);
 		updateData();
 		middlePanel.add(textArea);
-		
+
 	}
-	
+
+	@Override
 	public void updateData() {
 		//populate
 		List<String> titles = Data.bookTitles;
@@ -61,5 +62,5 @@ public class AllBookTitles implements MessageableWindow {
 		textArea.setText(sb.toString());
 		mainPanel.repaint();
 	}
-	
+
 }
