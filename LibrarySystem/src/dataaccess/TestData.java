@@ -10,17 +10,15 @@ import business.Book;
 import business.LibraryMember;
 
 /**
- * This class loads data into the data repository and also
- * sets up the storage units that are used in the application.
- * The main method in this class must be run once (and only
- * once) before the rest of the application can work properly.
- * It will create three serialized objects in the dataaccess.storage
+ * This class loads data into the data repository and also sets up the storage
+ * units that are used in the application. The main method in this class must be
+ * run once (and only once) before the rest of the application can work
+ * properly. It will create three serialized objects in the dataaccess.storage
  * folder.
  *
  *
  */
 public class TestData {
-
 
 	public static void main(String[] args) {
 		TestData td = new TestData();
@@ -31,7 +29,8 @@ public class TestData {
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
 	}
-	///create books
+
+	/// create books
 	public void bookData() {
 		allBooks.get(0).addCopy();
 		allBooks.get(0).addCopy();
@@ -46,7 +45,7 @@ public class TestData {
 		DataAccessFacade.loadUserMap(allUsers);
 	}
 
-	//create library members
+	// create library members
 	public void libraryMemberData() {
 		LibraryMember libraryMember = new LibraryMember("1001", "Andy", "Rogers", "641-223-2211", addresses.get(4));
 		members.add(libraryMember);
