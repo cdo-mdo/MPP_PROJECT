@@ -1,6 +1,7 @@
 package librarysystem;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -16,10 +17,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 import business.ControllerInterface;
@@ -41,6 +44,15 @@ public class LibrarySystem extends JFrame implements LibWindow {
     
     JPanel leftPanel;
 	JPanel rightPanel;
+	
+	
+	JList<String> linkList;
+	JPanel cards;
+	JPanel outputpanel;
+	
+	JPanel menuPanel1;
+	JPanel menuPanel2;
+	JPanel menuPanel3;
     
     
     private boolean isInitialized = false;
@@ -62,17 +74,55 @@ public class LibrarySystem extends JFrame implements LibWindow {
 
     @Override
 	public void init() {
-    	formatContentPane();
-    	setPathToImage();
-    	insertSplashImage();
-    	addLoginPanel();
+//    	formatContentPane();
+//    	setPathToImage();
+//    	insertSplashImage();
+//    	addLoginPanel();
 
-		createMenus();
+		//createMenus();
 		//pack();
 		setSize(960,540);
 		//setSize(640,360);
 		isInitialized = true;
+		
+		String[] items = {"Login", "View Titles", "Add Book"};
+		linkList = new JList<String>(items);				
+		createPanels();
+//		createOutputBar();
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, linkList, cards);
+		splitPane.setDividerLocation(150);
+		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, outputpanel);
+		outerPane.setDividerLocation(350);
+		add(outerPane, BorderLayout.CENTER);
     }
+    
+    public void createPanels() {
+
+    	menuPanel1 = new JPanel();
+    	menuPanel1.setLayout(new BorderLayout(12,12));
+        //createLoginPanel();
+        
+        menuPanel2 = new JPanel();
+        menuPanel2.setLayout(new BorderLayout(12,12));
+	    //createTitlesPanel();
+        
+	    menuPanel3 = new JPanel();
+	    menuPanel3.setLayout(new BorderLayout(12,12));
+        //createAddBookPanel();
+        
+		cards = new JPanel(new CardLayout());
+		cards.add(menuPanel1, "Login");
+		cards.add(menuPanel2, "View Titles");
+		cards.add(menuPanel3, "Add Book");
+		
+		linkList.addListSelectionListener(event -> {
+			String value = linkList.getSelectedValue().toString();
+			CardLayout cl = (CardLayout) (cards.getLayout());
+			cl.show(cards, value);
+		});
+
+	}
 
     private void formatContentPane() {
 		mainPanel = new JPanel();
@@ -89,13 +139,6 @@ public class LibrarySystem extends JFrame implements LibWindow {
     private void insertSplashImage() {
     	leftPanel = new JPanel();
         ImageIcon image = new ImageIcon(pathToImage);
-//    	BufferedImage originalImage = new ImageIO.read(new File(pathToImage));
-//    	Image scaledImage = originalImage.getScaledInstance(
-//                getWidth(), getHeight(), Image.SCALE_SMOOTH);
-//            g.drawImage(scaledImage, 0, 0, this);
-//        Image image = icon.getImage();
-//        image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-//        ImageIcon resizedIcon = new ImageIcon(image);
         leftPanel.add(new JLabel(image));
         mainPanel.add(leftPanel);
     }
@@ -158,26 +201,26 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		mainPanel.add(rightPanel);
 	}
     
-    private void createMenus() {
-    	menuBar = new JMenuBar();
-		menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
-		addMenuItems();
-		setJMenuBar(menuBar);
-    }
+//    private void createMenus() {
+//    	menuBar = new JMenuBar();
+//		menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
+//		addMenuItems();
+//		setJMenuBar(menuBar);
+//    }
 
-    private void addMenuItems() {
-       options = new JMenu("Options");
- 	   menuBar.add(options);
- 	   login = new JMenuItem("Login");
- 	   login.addActionListener(new LoginListener());
- 	   allBookIds = new JMenuItem("All Book Ids");
- 	   allBookIds.addActionListener(new AllBookIdsListener());
- 	   allMemberIds = new JMenuItem("All Member Ids");
- 	   allMemberIds.addActionListener(new AllMemberIdsListener());
- 	   options.add(login);
- 	   options.add(allBookIds);
- 	   options.add(allMemberIds);
-    }
+//    private void addMenuItems() {
+//       options = new JMenu("Options");
+// 	   menuBar.add(options);
+// 	   login = new JMenuItem("Login");
+// 	   login.addActionListener(new LoginListener());
+// 	   allBookIds = new JMenuItem("All Book Ids");
+// 	   allBookIds.addActionListener(new AllBookIdsListener());
+// 	   allMemberIds = new JMenuItem("All Member Ids");
+// 	   allMemberIds.addActionListener(new AllMemberIdsListener());
+// 	   options.add(login);
+// 	   options.add(allBookIds);
+// 	   options.add(allMemberIds);
+//    }
 
     class LoginListener implements ActionListener {
 
