@@ -12,14 +12,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import librarysystem.AddBookCopyController;
+
 public class AddBookCopyPanel extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1561596036523125788L;
 	JPanel titlePanel;
 	JLabel title;
 	
-	JPanel searchPanel;
+	JPanel addPanel;
 	JLabel isbnLabel;
 	JTextField isbnText;
-	JButton searchButton;
+	JLabel copiesLabel;
+	JTextField copiesText;
+	JButton addButton;
+	
+	public String getISBNText() {
+		return isbnText.getText();
+	}
+	
+	public String getCopyNumber() {
+		return copiesText.getText();
+	}
 	
 	AddBookCopyPanel() {
 		setSize(600, 150);
@@ -30,7 +46,8 @@ public class AddBookCopyPanel extends JFrame {
 		defineSearchPanel();
 		
 		add(titlePanel);
-		add(searchPanel);
+		add(addPanel);
+		
 	}
 	
 	void defineTitlePanel() {
@@ -42,16 +59,21 @@ public class AddBookCopyPanel extends JFrame {
 	}
 	
 	void defineSearchPanel() {
-		searchPanel = new JPanel();
-		searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		addPanel = new JPanel();
+		addPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		
 		isbnLabel = new JLabel("ISBN");
 		isbnText = new JTextField(12);
-		searchButton = new JButton("Search");
+		copiesLabel = new JLabel("number of copies");
+		copiesText = new JTextField(5);
+		addButton = new JButton("Add Copies");
+		addButton.addActionListener(new AddBookCopyController(this));
 		
-		searchPanel.add(isbnLabel);
-		searchPanel.add(isbnText);
-		searchPanel.add(searchButton);
+		addPanel.add(isbnLabel);
+		addPanel.add(isbnText);
+		addPanel.add(copiesLabel);
+		addPanel.add(copiesText);
+		addPanel.add(addButton);
 	}
 	
 	public static void main(String[] args) {
