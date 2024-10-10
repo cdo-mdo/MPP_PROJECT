@@ -1,5 +1,9 @@
 package librarysystem;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,18 +13,24 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import business.ControllerInterface;
 import business.SystemController;
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8218447337255928117L;
 	ControllerInterface ci = new SystemController();
 	public final static LibrarySystem INSTANCE =new LibrarySystem();
 	JPanel mainPanel;
@@ -28,6 +38,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
     JMenu options;
     JMenuItem login, allBookIds, allMemberIds;
     String pathToImage;
+    
+    JPanel leftPanel;
+	JPanel rightPanel;
+    
+    
     private boolean isInitialized = false;
 
     private static LibWindow[] allWindows = {
@@ -50,29 +65,99 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	formatContentPane();
     	setPathToImage();
     	insertSplashImage();
+    	addLoginPanel();
 
 		createMenus();
 		//pack();
-		setSize(660,500);
+		setSize(960,540);
+		//setSize(640,360);
 		isInitialized = true;
     }
 
     private void formatContentPane() {
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,1));
+		mainPanel.setLayout(new GridLayout(1,2));
 		getContentPane().add(mainPanel);
 	}
 
     private void setPathToImage() {
     	String currDirectory = System.getProperty("user.dir");
-    	pathToImage = currDirectory+File.separator+"src"+File.separator+"librarysystem"+File.separator+"library.jpg";
+    	pathToImage = currDirectory+File.separator+"src"+File.separator+"librarysystem"+File.separator+"pexels-gesel-757855.jpg";
     	System.out.println(pathToImage);
     }
 
     private void insertSplashImage() {
+    	leftPanel = new JPanel();
         ImageIcon image = new ImageIcon(pathToImage);
-		mainPanel.add(new JLabel(image));
+//    	BufferedImage originalImage = new ImageIO.read(new File(pathToImage));
+//    	Image scaledImage = originalImage.getScaledInstance(
+//                getWidth(), getHeight(), Image.SCALE_SMOOTH);
+//            g.drawImage(scaledImage, 0, 0, this);
+//        Image image = icon.getImage();
+//        image.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+//        ImageIcon resizedIcon = new ImageIcon(image);
+        leftPanel.add(new JLabel(image));
+        mainPanel.add(leftPanel);
     }
+    
+    private void addLoginPanel() {
+		rightPanel = new JPanel();
+		JPanel mainLoginPanel = new JPanel();
+		
+		
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JLabel label = new JLabel("Welcome to the Lybrary System. Please login!");
+		label.setForeground(Color.BLUE.darker().darker());
+		label.setFont(new Font("Tahoma", Font.BOLD, 16));
+		topPanel.add(label);
+		
+		
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new BorderLayout()); 
+		JPanel usnrupper = new JPanel();
+		JPanel pwdlower = new JPanel();
+		usnrupper.setLayout(new FlowLayout(FlowLayout.CENTER,15,4));
+		pwdlower.setLayout(new FlowLayout(FlowLayout.CENTER,15,4));
+		JLabel username = new JLabel("Username");
+		JLabel password = new JLabel("Password");
+		password.setPreferredSize(username.getPreferredSize());
+		JTextField userText = new JTextField(11);
+		JTextField pwdText = new JTextField(11);
+		usnrupper.add(username);
+		usnrupper.add(userText);
+		pwdlower.add(password);
+		pwdlower.add(pwdText);
+		middlePanel.add(usnrupper, BorderLayout.NORTH);
+		middlePanel.add(pwdlower, BorderLayout.CENTER);
+		
+		
+		JPanel lowerPanel = new JPanel();
+		lowerPanel.setLayout(new BorderLayout(8,8));
+		JPanel upper = new JPanel();
+		JPanel lower = new JPanel();
+		upper.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JButton signin = new JButton("Sign in");
+		//signin.addActionListener(Control.INSTANCE.getSubmitLoginListener());
+		JButton back = new JButton("Exit");
+		//back.addActionListener(evt -> Control.INSTANCE.backToStart(this));
+		upper.add(signin);
+		upper.add(back);
+		lower.setLayout(new FlowLayout(FlowLayout.CENTER));
+		lowerPanel.add(upper, BorderLayout.NORTH);
+		lowerPanel.add(lower, BorderLayout.CENTER);
+		
+		
+		mainLoginPanel.setLayout(new BorderLayout(12,12));
+		mainLoginPanel.add(topPanel, BorderLayout.NORTH);
+		mainLoginPanel.add(middlePanel, BorderLayout.CENTER);
+		mainLoginPanel.add(lowerPanel, BorderLayout.SOUTH);
+		//getContentPane().add(mainPanel);
+		
+		rightPanel.add(mainLoginPanel);
+		mainPanel.add(rightPanel);
+	}
+    
     private void createMenus() {
     	menuBar = new JMenuBar();
 		menuBar.setBorder(BorderFactory.createRaisedBevelBorder());
