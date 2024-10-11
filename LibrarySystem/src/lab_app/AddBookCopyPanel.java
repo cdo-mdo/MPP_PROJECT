@@ -38,9 +38,9 @@ public class AddBookCopyPanel extends JFrame {
 	}
 	
 	AddBookCopyPanel() {
-		setSize(600, 150);
+		setSize(780, 540);
 		
-		this.setLayout(new GridLayout(3,1));
+		this.setLayout(new GridLayout(15,1));
 		
 		defineTitlePanel();
 		defineSearchPanel();
@@ -52,7 +52,7 @@ public class AddBookCopyPanel extends JFrame {
 	
 	void defineTitlePanel() {
 		titlePanel = new JPanel();
-		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5));
 		
 		title = new JLabel("Add Copy of Book");
 		titlePanel.add(title);
@@ -60,7 +60,7 @@ public class AddBookCopyPanel extends JFrame {
 	
 	void defineSearchPanel() {
 		addPanel = new JPanel();
-		addPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		addPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5));
 		
 		isbnLabel = new JLabel("ISBN");
 		isbnText = new JTextField(12);
