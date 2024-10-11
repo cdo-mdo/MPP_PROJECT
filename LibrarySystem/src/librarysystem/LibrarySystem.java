@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 
 import business.ControllerInterface;
 import business.SystemController;
+import lab_app.AddBookCopyPanel;
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
@@ -36,6 +37,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	private static final long serialVersionUID = -8218447337255928117L;
 	ControllerInterface ci = new SystemController();
 	public final static LibrarySystem INSTANCE =new LibrarySystem();
+	
+	public static final String ADD_MEMBER = "Add Library Member";
+	public static final String CHECKOUT_BOOK = "Checkout Book";
+	public static final String ADD_COPY_OF_BOOK = "Add Copy of Book";
+	
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
@@ -50,9 +56,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel cards;
 	JPanel outputpanel;
 	
-	JPanel menuPanel1;
+	AddLibrarianWindow menuPanel1;
 	JPanel menuPanel2;
-	JPanel menuPanel3;
+	AddBookCopyPanel menuPanel3;
+	
+	StatusPanel statusPanel;
+	JLabel outputDisplay;
     
     
     private boolean isInitialized = false;
@@ -68,6 +77,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		for(LibWindow frame: allWindows) {
 			frame.setVisible(false);
 		}
+	}
+	
+	public void setMessage(String s) {
+		outputDisplay.setText(s);
 	}
 
     private LibrarySystem() {}
@@ -85,36 +98,39 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		//setSize(640,360);
 		isInitialized = true;
 		
-		String[] items = {"Login", "View Titles", "Add Book"};
+		String[] items = {ADD_MEMBER, CHECKOUT_BOOK, ADD_COPY_OF_BOOK};
 		linkList = new JList<String>(items);				
 		createPanels();
-//		createOutputBar();
+		//createOutputBar();
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, linkList, cards);
-		splitPane.setDividerLocation(150);
-		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, outputpanel);
-		outerPane.setDividerLocation(350);
+		splitPane.setDividerLocation(180);
+		statusPanel = new StatusPanel();
+		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, statusPanel);
+		outerPane.setDividerLocation(432);
 		add(outerPane, BorderLayout.CENTER);
     }
     
     public void createPanels() {
 
-    	menuPanel1 = new JPanel();
-    	menuPanel1.setLayout(new BorderLayout(12,12));
+    	menuPanel1 = new AddLibrarianWindow();
+    	menuPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
+//    	menuPanel1.setLayout(new BorderLayout(12,12));
         //createLoginPanel();
         
         menuPanel2 = new JPanel();
         menuPanel2.setLayout(new BorderLayout(12,12));
 	    //createTitlesPanel();
         
-	    menuPanel3 = new JPanel();
-	    menuPanel3.setLayout(new BorderLayout(12,12));
+	    menuPanel3 = new AddBookCopyPanel();
+	    //menuPanel3.setLayout(new BorderLayout(12,12));
         //createAddBookPanel();
+	    //menuPanel3.add(new AddBookCopyPanel());
         
 		cards = new JPanel(new CardLayout());
-		cards.add(menuPanel1, "Login");
-		cards.add(menuPanel2, "View Titles");
-		cards.add(menuPanel3, "Add Book");
+		cards.add(menuPanel1, ADD_MEMBER);
+		cards.add(menuPanel2, CHECKOUT_BOOK);
+		cards.add(menuPanel3, ADD_COPY_OF_BOOK);
 		
 		linkList.addListSelectionListener(event -> {
 			String value = linkList.getSelectedValue().toString();
@@ -123,83 +139,90 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		});
 
 	}
-
-    private void formatContentPane() {
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,2));
-		getContentPane().add(mainPanel);
-	}
-
-    private void setPathToImage() {
-    	String currDirectory = System.getProperty("user.dir");
-    	pathToImage = currDirectory+File.separator+"src"+File.separator+"librarysystem"+File.separator+"pexels-gesel-757855.jpg";
-    	System.out.println(pathToImage);
-    }
-
-    private void insertSplashImage() {
-    	leftPanel = new JPanel();
-        ImageIcon image = new ImageIcon(pathToImage);
-        leftPanel.add(new JLabel(image));
-        mainPanel.add(leftPanel);
-    }
     
-    private void addLoginPanel() {
-		rightPanel = new JPanel();
-		JPanel mainLoginPanel = new JPanel();
-		
-		
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		JLabel label = new JLabel("Welcome to the Lybrary System. Please login!");
-		label.setForeground(Color.BLUE.darker().darker());
-		label.setFont(new Font("Tahoma", Font.BOLD, 16));
-		topPanel.add(label);
-		
-		
-		JPanel middlePanel = new JPanel();
-		middlePanel.setLayout(new BorderLayout()); 
-		JPanel usnrupper = new JPanel();
-		JPanel pwdlower = new JPanel();
-		usnrupper.setLayout(new FlowLayout(FlowLayout.CENTER,15,4));
-		pwdlower.setLayout(new FlowLayout(FlowLayout.CENTER,15,4));
-		JLabel username = new JLabel("Username");
-		JLabel password = new JLabel("Password");
-		password.setPreferredSize(username.getPreferredSize());
-		JTextField userText = new JTextField(11);
-		JTextField pwdText = new JTextField(11);
-		usnrupper.add(username);
-		usnrupper.add(userText);
-		pwdlower.add(password);
-		pwdlower.add(pwdText);
-		middlePanel.add(usnrupper, BorderLayout.NORTH);
-		middlePanel.add(pwdlower, BorderLayout.CENTER);
-		
-		
-		JPanel lowerPanel = new JPanel();
-		lowerPanel.setLayout(new BorderLayout(8,8));
-		JPanel upper = new JPanel();
-		JPanel lower = new JPanel();
-		upper.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JButton signin = new JButton("Sign in");
-		//signin.addActionListener(Control.INSTANCE.getSubmitLoginListener());
-		JButton back = new JButton("Exit");
-		//back.addActionListener(evt -> Control.INSTANCE.backToStart(this));
-		upper.add(signin);
-		upper.add(back);
-		lower.setLayout(new FlowLayout(FlowLayout.CENTER));
-		lowerPanel.add(upper, BorderLayout.NORTH);
-		lowerPanel.add(lower, BorderLayout.CENTER);
-		
-		
-		mainLoginPanel.setLayout(new BorderLayout(12,12));
-		mainLoginPanel.add(topPanel, BorderLayout.NORTH);
-		mainLoginPanel.add(middlePanel, BorderLayout.CENTER);
-		mainLoginPanel.add(lowerPanel, BorderLayout.SOUTH);
-		//getContentPane().add(mainPanel);
-		
-		rightPanel.add(mainLoginPanel);
-		mainPanel.add(rightPanel);
-	}
+//    public void createOutputBar() {
+//		statusPanel = new JPanel();
+//		statusPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+//		outputDisplay = new JLabel("Welcome to the Book Club!");
+//		statusPanel.add(outputDisplay);
+//	}
+
+//    private void formatContentPane() {
+//		mainPanel = new JPanel();
+//		mainPanel.setLayout(new GridLayout(1,2));
+//		getContentPane().add(mainPanel);
+//	}
+
+//    private void setPathToImage() {
+//    	String currDirectory = System.getProperty("user.dir");
+//    	pathToImage = currDirectory+File.separator+"src"+File.separator+"librarysystem"+File.separator+"pexels-gesel-757855.jpg";
+//    	System.out.println(pathToImage);
+//    }
+
+//    private void insertSplashImage() {
+//    	leftPanel = new JPanel();
+//        ImageIcon image = new ImageIcon(pathToImage);
+//        leftPanel.add(new JLabel(image));
+//        mainPanel.add(leftPanel);
+//    }
+    
+//    private void addLoginPanel() {
+//		rightPanel = new JPanel();
+//		JPanel mainLoginPanel = new JPanel();
+//		
+//		
+//		JPanel topPanel = new JPanel();
+//		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+//		JLabel label = new JLabel("Welcome to the Lybrary System. Please login!");
+//		label.setForeground(Color.BLUE.darker().darker());
+//		label.setFont(new Font("Tahoma", Font.BOLD, 16));
+//		topPanel.add(label);
+//		
+//		
+//		JPanel middlePanel = new JPanel();
+//		middlePanel.setLayout(new BorderLayout()); 
+//		JPanel usnrupper = new JPanel();
+//		JPanel pwdlower = new JPanel();
+//		usnrupper.setLayout(new FlowLayout(FlowLayout.CENTER,15,4));
+//		pwdlower.setLayout(new FlowLayout(FlowLayout.CENTER,15,4));
+//		JLabel username = new JLabel("Username");
+//		JLabel password = new JLabel("Password");
+//		password.setPreferredSize(username.getPreferredSize());
+//		JTextField userText = new JTextField(11);
+//		JTextField pwdText = new JTextField(11);
+//		usnrupper.add(username);
+//		usnrupper.add(userText);
+//		pwdlower.add(password);
+//		pwdlower.add(pwdText);
+//		middlePanel.add(usnrupper, BorderLayout.NORTH);
+//		middlePanel.add(pwdlower, BorderLayout.CENTER);
+//		
+//		
+//		JPanel lowerPanel = new JPanel();
+//		lowerPanel.setLayout(new BorderLayout(8,8));
+//		JPanel upper = new JPanel();
+//		JPanel lower = new JPanel();
+//		upper.setLayout(new FlowLayout(FlowLayout.CENTER));
+//		JButton signin = new JButton("Sign in");
+//		//signin.addActionListener(Control.INSTANCE.getSubmitLoginListener());
+//		JButton back = new JButton("Exit");
+//		//back.addActionListener(evt -> Control.INSTANCE.backToStart(this));
+//		upper.add(signin);
+//		upper.add(back);
+//		lower.setLayout(new FlowLayout(FlowLayout.CENTER));
+//		lowerPanel.add(upper, BorderLayout.NORTH);
+//		lowerPanel.add(lower, BorderLayout.CENTER);
+//		
+//		
+//		mainLoginPanel.setLayout(new BorderLayout(12,12));
+//		mainLoginPanel.add(topPanel, BorderLayout.NORTH);
+//		mainLoginPanel.add(middlePanel, BorderLayout.CENTER);
+//		mainLoginPanel.add(lowerPanel, BorderLayout.SOUTH);
+//		//getContentPane().add(mainPanel);
+//		
+//		rightPanel.add(mainLoginPanel);
+//		mainPanel.add(rightPanel);
+//	}
     
 //    private void createMenus() {
 //    	menuBar = new JMenuBar();
