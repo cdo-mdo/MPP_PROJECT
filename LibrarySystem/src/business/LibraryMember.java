@@ -17,9 +17,7 @@ final public class LibraryMember extends Person implements Serializable {
 	public String getMemberId() {
 		return memberId;
 	}
-<<<<<<< Updated upstream
 
-=======
 	
 	public void addCheckout(BookCopy bookCopy) {
 		checkouts.add(new CheckoutRecordEntry(bookCopy));
@@ -45,7 +43,7 @@ final public class LibraryMember extends Person implements Serializable {
 		}
 		return data;
 	}
->>>>>>> Stashed changes
+
 	@Override
 	public String toString() {
 		return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() + ", "

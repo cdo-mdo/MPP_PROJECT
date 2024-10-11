@@ -28,6 +28,8 @@ import javax.swing.JTextField;
 import business.ControllerInterface;
 import business.SystemController;
 import lab_app.AddBookCopyPanel;
+import lab_app.checkoutBookPanel;
+
 
 
 public class LibrarySystem extends JFrame implements LibWindow {
@@ -118,8 +120,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 //    	menuPanel1.setLayout(new BorderLayout(12,12));
         //createLoginPanel();
         
-        menuPanel2 = new JPanel();
-        menuPanel2.setLayout(new BorderLayout(12,12));
+        menuPanel2 = new checkoutBookPanel().getMainPanel();
+        menuPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //menuPanel2.setLayout(new BorderLayout(12,12));
 	    //createTitlesPanel();
         
 	    menuPanel3 = new AddBookCopyPanel();
