@@ -40,11 +40,13 @@ public class checkoutBookPanel {
 		mainPanel = new JPanel();
 		defineTopPanel();
 		defineMiddlePanel();
+		
 		String[] columnNames = {"Member ID","Name", "Checkout Date", "Due Date", "Title", "Copy Number"};
 		tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         table.setPreferredScrollableViewportSize(new Dimension(600, 100));
         scrollPane = new JScrollPane(table);
+        
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);
@@ -94,7 +96,11 @@ public class checkoutBookPanel {
 		addItemPanel1.setLayout(new BorderLayout());
 		
 		checkAvailableButton = new JButton("Check Out");
+		checkAvailableButton.addActionListener(new SubmitLoginListener());
 		addItemPanel1.add(checkAvailableButton,BorderLayout.SOUTH);
+		
+		addItemPanel.add(addItemPanel1, BorderLayout.SOUTH);
+		middlePanel.add(addItemPanel);
 
 	}
 
