@@ -36,7 +36,7 @@ public class AddLibrarianWindow extends JPanel {
 		add(mainPanel);
 		setVisible(true);
 
-		checkStorage();
+		//checkStorage();
 	}
 
 	private void addLibrarian() {

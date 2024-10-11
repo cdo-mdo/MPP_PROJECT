@@ -1,17 +1,14 @@
 package lab_app;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,6 +21,8 @@ import business.BookCopy;
 import business.LibraryMember;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
+import librarysystem.LibrarySystem;
+import librarysystem.StatusPanel;
 
 
 
@@ -31,32 +30,46 @@ public class checkoutBookPanel{
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
-	private JScrollPane scrollPane = new JScrollPane();
 	
 	private JTextField isnb;
 	private JTextField memberID;
 	
 	private JButton checkAvailableButton;
 	
+	private DefaultTableModel tableModel;
+	private JTable table;
+	private JScrollPane scrollPane;
+	
 	public checkoutBookPanel() {
+		mainPanel = new JPanel();
+		
 		defineTopPanel();
 		defineMiddlePanel();
-		mainPanel = new JPanel();
-		mainPanel.add(topPanel);
-		mainPanel.add(middlePanel);
-		//defineScrollPane();
-		mainPanel.add(scrollPane);
+		
+		String[] columnNames = {"Member ID","Name", "Checkout Date", "Due Date", "Title", "Copy Number"};
+		tableModel = new DefaultTableModel(columnNames, 0);
+        table = new JTable(tableModel);
+        table.setPreferredScrollableViewportSize(new Dimension(600, 100));
+        scrollPane = new JScrollPane(table);
+		
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(topPanel, BorderLayout.NORTH);
+		mainPanel.add(middlePanel, BorderLayout.CENTER);
+		mainPanel.add(scrollPane, BorderLayout.SOUTH);
 		
 	}
 	
 	public JPanel getMainPanel() {
 		return mainPanel;
 	}
+	
 	public void defineTopPanel() {
 		topPanel = new JPanel();
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5));
 		JLabel AddBookLabel = new JLabel("Check out Book");
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
-		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		AddBookLabel.setForeground(Color.BLUE.darker().darker());
+		AddBookLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		topPanel.add(AddBookLabel);
 	}
 	
@@ -88,7 +101,7 @@ public class checkoutBookPanel{
 		
 		JPanel addItemPanel1 = new JPanel();
 		addItemPanel1.setLayout(new BorderLayout());
-		checkAvailableButton = new JButton("Check available");
+		checkAvailableButton = new JButton("Check Out");
 		addItemPanel1.add(checkAvailableButton,BorderLayout.SOUTH);
 
 		
@@ -100,11 +113,11 @@ public class checkoutBookPanel{
 	}
 	
 	public void defineScrollPane(String[][] data) {
-		String[] columnNames = {"Member ID","Name", "Checkout Date", "Due Date", "Title", "Copy Number"};
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable table = new JTable(model);
-		scrollPane = new JScrollPane(table);
+		for (Object[] row : data) {
+            tableModel.addRow(row);
+        }
 	}
+	
 	class SubmitLoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			DataAccess da = new DataAccessFacade();
@@ -112,45 +125,40 @@ public class checkoutBookPanel{
 			String memberIDText = memberID.getText();
 			String isnbText = isnb.getText();
 			
-
 			if (members.containsKey(memberIDText)){
 				HashMap<String,Book> books = da.readBooksMap();
 				if (books.containsKey(isnbText)) {
 					Book book = books.get(isnbText);
 					BookCopy bookcopy = book.getNextAvailableCopy();
-					if (bookcopy==null){
-						System.out.println("The book is not available");
-					}else {
+					if (bookcopy == null){
+						StatusPanel.STATUS_INSTANCE.setStatus("The book is not available!");
+					} else {
 						bookcopy.changeAvailability();
 						LibraryMember member = members.get(memberIDText);
 						member.addCheckout(bookcopy);
-						member.displayRecord();
+						//member.displayRecord();
 						
 						DataAccessFacade.saveBooks(books);
 						DataAccessFacade.saveMembers(members);
 						
 						defineScrollPane(member.getAllCheckouts());
-						
-						
+						StatusPanel.STATUS_INSTANCE.setStatus("Checkout Book " + isnbText);
 					}
-					
-				}else {
-					System.out.println("ISBN not found");
+				} else {
+					StatusPanel.STATUS_INSTANCE.setStatus("ISBN not found!");
 				}
-			}else {
-				System.out.println("Member ID not found");
+			} else {
+				StatusPanel.STATUS_INSTANCE.setStatus("Member ID not found!");
 			}
-			
-			
 		}
 	}
 
-	public static void main(String[] args) {
-		JFrame a = new JFrame();
-		a.setSize(640, 360);
-		JPanel mainPanel = new checkoutBookPanel().getMainPanel();
-		a.add(mainPanel);
-		a.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		JFrame a = new JFrame();
+//		a.setSize(640, 360);
+//		JPanel mainPanel = new checkoutBookPanel().getMainPanel();
+//		a.add(mainPanel);
+//		a.setVisible(true);
+//	}
 
 }

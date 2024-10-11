@@ -38,7 +38,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	 */
 	private static final long serialVersionUID = -8218447337255928117L;
 	ControllerInterface ci = new SystemController();
-	public final static LibrarySystem INSTANCE =new LibrarySystem();
+	public final static LibrarySystem INSTANCE = new LibrarySystem();
 	
 	public static final String ADD_MEMBER = "Add Library Member";
 	public static final String CHECKOUT_BOOK = "Checkout Book";
@@ -63,7 +63,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	AddBookCopyPanel menuPanel3;
 	
 	StatusPanel statusPanel;
-	JLabel outputDisplay;
+	//JLabel outputDisplay;
     
     
     private boolean isInitialized = false;
@@ -81,9 +81,9 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
 	}
 	
-	public void setMessage(String s) {
-		outputDisplay.setText(s);
-	}
+//	public void setMessage(String s) {
+//		outputDisplay.setText(s);
+//	}
 
     private LibrarySystem() {}
 
@@ -107,7 +107,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, linkList, cards);
 		splitPane.setDividerLocation(180);
-		statusPanel = new StatusPanel();
+		statusPanel = StatusPanel.STATUS_INSTANCE;
 		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, statusPanel);
 		outerPane.setDividerLocation(432);
 		add(outerPane, BorderLayout.CENTER);
