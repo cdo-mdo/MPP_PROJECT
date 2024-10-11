@@ -1,0 +1,26 @@
+!SESSION 2024-10-09 14:02:33.613 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.2
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/NhienLQ/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/NhienLQ/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-09 14:02:37.096
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-09 14:02:59.723
+!MESSAGE Logback config file: /Users/NhienLQ/Desktop/project/MasterCS/MPP/Source/MPP_PROJECT/LibrarySystem/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.1.20240411-1122.xml
+!SESSION 2024-10-09 14:08:14.351 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.2
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product -keyring /Users/NhienLQ/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.java.product -keyring /Users/NhienLQ/.eclipse_keyring
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-09 14:08:17.899
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-09 14:08:46.020
+!MESSAGE Logback config file: /Users/NhienLQ/Desktop/project/MasterCS/MPP/Source/MPP_PROJECT/LibrarySystem/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.6.1.20240411-1122.xml

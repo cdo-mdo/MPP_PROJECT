@@ -35,6 +35,10 @@ final public class BookCopy implements Serializable {
 		return book;
 	}
 
+	public int getMaxCheckoutLength() {
+		return this.book.getMaxCheckoutLength();
+	}
+	
 	public void changeAvailability() {
 		isAvailable = !isAvailable;
 	}

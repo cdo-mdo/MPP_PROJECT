@@ -1,5 +1,9 @@
 package dataaccess;
+<<<<<<< Updated upstream
 
+=======
+import java.io.File;
+>>>>>>> Stashed changes
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +23,12 @@ public class DataAccessFacade implements DataAccess {
 		BOOKS, MEMBERS, USERS;
 	}
 
+<<<<<<< Updated upstream
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "\\src\\dataaccess\\storage";
+=======
+	public static final String OUTPUT_DIR = System.getProperty("user.dir")
+			+ File.separator+ "src" +File.separator+ "dataaccess"+File.separator+"storage";
+>>>>>>> Stashed changes
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
 	// implement: other save operations
@@ -30,7 +39,14 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
-
+	
+	static public void saveBooks(HashMap<String, Book> books) {
+		saveToStorage(StorageType.BOOKS, books);
+	}
+	
+	static public void saveMembers(HashMap<String, LibraryMember> mems) {
+		saveToStorage(StorageType.MEMBERS, mems);
+	}
 	@Override
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Book> readBooksMap() {
