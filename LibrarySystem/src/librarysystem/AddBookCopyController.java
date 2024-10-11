@@ -20,28 +20,38 @@ public class AddBookCopyController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String isbn = addBookCopyPanel.getISBNText().trim();
+		if ("".equals(isbn)) {
+			addBookCopyPanel.setStatus("ISBN is empty");
+			return;
+		}
+		
 		String numStr = addBookCopyPanel.getCopyNumber().trim();
-		int num = Integer.parseInt(numStr);
+		int num;
+		try {
+			num = Integer.parseInt(numStr);
+		}
+		catch (NumberFormatException exception) {
+			addBookCopyPanel.setStatus("Wrong number of copies: " + exception.getMessage());
+			return;
+		}
 		
 		DataAccessFacade dataAccessFacade = new DataAccessFacade();
 		
 		HashMap<String, Book> maps = dataAccessFacade.readBooksMap();
 		for (HashMap.Entry<String, Book> entry: maps.entrySet()) {
 			if (isbn.equals(entry.getKey())) {
-				System.out.println("found isbn: " + isbn);
 				Book book = entry.getValue();
 				for (int i = 0; i < num; i++) {
 					book.addCopy();
 				}
-				System.out.println("add " + num + " copies of isbn: " + isbn);
+				addBookCopyPanel.setStatus("Add " + num + " of copies to book ISBN " + isbn);
 				List<Book> list = new ArrayList<>();
 				maps.values().forEach(value -> list.add(value));
-				System.out.println("persistent");
 				DataAccessFacade.loadBookMap(list);
 				return;
 			}
 		}
-		System.out.println("not found isbn " + isbn);
+		addBookCopyPanel.setStatus("Not found book isbn " + isbn);
 	}
 
 }

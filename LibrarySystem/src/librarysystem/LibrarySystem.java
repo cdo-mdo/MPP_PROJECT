@@ -101,13 +101,14 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		isInitialized = true;
 		
 		String[] items = {ADD_MEMBER, CHECKOUT_BOOK, ADD_COPY_OF_BOOK};
-		linkList = new JList<String>(items);				
+		linkList = new JList<String>(items);	
+		statusPanel = new StatusPanel();
 		createPanels();
 		//createOutputBar();
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, linkList, cards);
 		splitPane.setDividerLocation(180);
-		statusPanel = new StatusPanel();
+		
 		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane, statusPanel);
 		outerPane.setDividerLocation(432);
 		add(outerPane, BorderLayout.CENTER);
@@ -125,7 +126,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
         //menuPanel2.setLayout(new BorderLayout(12,12));
 	    //createTitlesPanel();
         
-	    menuPanel3 = new AddBookCopyPanel();
+	    menuPanel3 = new AddBookCopyPanel(statusPanel);
 	    //menuPanel3.setLayout(new BorderLayout(12,12));
         //createAddBookPanel();
 	    //menuPanel3.add(new AddBookCopyPanel());

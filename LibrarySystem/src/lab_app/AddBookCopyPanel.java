@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import librarysystem.AddBookCopyController;
+import librarysystem.StatusPanel;
 
 public class AddBookCopyPanel extends JPanel {
 	/**
@@ -29,6 +30,8 @@ public class AddBookCopyPanel extends JPanel {
 	JTextField copiesText;
 	JButton addButton;
 	
+	StatusPanel statusPanel;
+	
 	public String getISBNText() {
 		return isbnText.getText();
 	}
@@ -37,8 +40,14 @@ public class AddBookCopyPanel extends JPanel {
 		return copiesText.getText();
 	}
 	
-	public AddBookCopyPanel() {
+	public void setStatus(String message) {
+		statusPanel.setStatus(message);
+	}
+	
+	public AddBookCopyPanel(StatusPanel statusPanel) {
+		
 		setSize(780, 540);
+		this.statusPanel = statusPanel;
 		
 		this.setLayout(new GridLayout(15,1));
 		
@@ -75,23 +84,5 @@ public class AddBookCopyPanel extends JPanel {
 		addPanel.add(copiesText);
 		addPanel.add(addButton);
 	}
-	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(() -> {
-//			JFrame frame = new AddBookCopyPanel();
-//			frame.setTitle("Add Book Copy");
-//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			centerFrameOnDesktop(frame);
-//			frame.setVisible(true);
-//		});
-//	}
-//
-//	public static void centerFrameOnDesktop(Component f) {
-//		Toolkit toolkit = Toolkit.getDefaultToolkit();
-//		int height = toolkit.getScreenSize().height;
-//		int width = toolkit.getScreenSize().width;
-//		int frameHeight = f.getSize().height;
-//		int frameWidth = f.getSize().width;
-//		f.setLocation(((width - frameWidth) / 2), (height - frameHeight) / 3);
-//	}
+
 }
