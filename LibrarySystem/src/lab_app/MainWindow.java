@@ -18,16 +18,10 @@ import javax.swing.JSplitPane;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/**
- * This sample code is like splitpane example, but also illustrates:
- * 
- * 4. Using a Cell Renderer to control the colors of the list items 
- * 
- * @author corazza
- *
- */
 public class MainWindow extends JFrame {
 	
 	String[] links;
@@ -36,6 +30,8 @@ public class MainWindow extends JFrame {
 	JPanel buttonBar;
 	JLabel label;
 	StatusPanel statusPanel;
+	private boolean isInitialized = false;
+	
 	public static final String WELCOME = "WELCOME";
 	public static final String ADD_MEMBER = "Add Library Member";
 	public static final String CHECKOUT_BOOK = "Checkout Book";
@@ -46,6 +42,7 @@ public class MainWindow extends JFrame {
 //	Login login = new Login();
 //	Titles titles = new Titles();
 //	AddBook add = new AddBook();
+	public static final MainWindow INSTANCE = new MainWindow();
 	
 	// list items which will be added to the ListModel for linkList
 	ListItem item = new ListItem(WELCOME, true);
@@ -110,6 +107,7 @@ public class MainWindow extends JFrame {
 		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
 		JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JButton logout = new JButton("Log Out");
+		logout.addActionListener(new LogoutProgram());
 		btnPanel.add(logout);
 		bottomPanel.add(statusPanel);
 		bottomPanel.add(btnPanel);
@@ -118,6 +116,17 @@ public class MainWindow extends JFrame {
 		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, innerPane, bottomPanel);
 		outerPane.setDividerLocation(432);
 		add(outerPane, BorderLayout.CENTER);
+	}
+	
+	class LogoutProgram implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			setVisible(false);
+			//LoginWindow.INSTANCE.init();
+            LoginWindow.INSTANCE.setVisible(true);
+		}
 	}
 
 	public void createButtonBar() {

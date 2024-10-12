@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,10 +42,12 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JTextField userText;
 	private JPasswordField pwdText;
 	private JButton signin;
+	private String ID;
+	private String pass;
 
 	private static LibWindow[] allWindows = { 
-			LoginWindow.INSTANCE, 
-};
+		LoginWindow.INSTANCE, 
+	};
 
 	@Override
 	public boolean isInitialized() {
@@ -109,7 +112,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 
  		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		JLabel label = new JLabel("Welcome to the Lybrary System. Please login!");
+		JLabel label = new JLabel("Welcome to the Library System. Please login!");
 		label.setForeground(Color.BLUE.darker().darker());
 		label.setFont(new Font("Tahoma", Font.BOLD, 16));
 		topPanel.add(label);
@@ -170,12 +173,20 @@ public class LoginWindow extends JFrame implements LibWindow {
 		butn.addActionListener(evt -> {
 			DataAccess da = new DataAccessFacade();
 			HashMap<String, User> users = da.readUserMap();
-			String ID = userText.getText();
-			String pass = getPassword();
+			for (Map.Entry<String, User> entry : users.entrySet()) {
+			    System.out.println("Key: " + entry.getKey() + ", User: " + entry.getValue());
+			}
+			ID = userText.getText();
+			pass = getPassword();
+			
+			System.out.println(ID);
+			System.out.println(pass);
+			
 			if (users.containsKey(ID)){
 				User user = users.get(ID);
 				if (pass.equals(user.getPassword())) {
 					Auth auth = user.getAuthorization();
+					System.out.println(auth.toString());
 					LoginWindow.hideAllWindows();
 					EventQueue.invokeLater(() ->
 			         {
@@ -187,12 +198,12 @@ public class LoginWindow extends JFrame implements LibWindow {
 			        	}else {
 			        		frame.updateList(null);
 			        	}
-			            
-			            frame.setTitle("Lybrary Management System");
+			        	clearFields();
+			            frame.setTitle("Library Management System");
 			            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			            centerFrameOnDesktop(frame);
 			            frame.setVisible(true);
-			           
+			            
 			         });
 					
 				}else {
@@ -200,7 +211,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 				}
 				
 			}else {
-				JOptionPane.showMessageDialog(LoginWindow.this, "ID not found! Please try again.");
+				JOptionPane.showMessageDialog(LoginWindow.this, "Username not found! Please try again.");
 			}
 
 		});
@@ -217,6 +228,11 @@ public class LoginWindow extends JFrame implements LibWindow {
 		for (LibWindow frame : allWindows) {
 			frame.setVisible(false);
 		}
+	}
+	
+	private void clearFields() {
+		userText.setText("");
+		pwdText.setText("");
 	}
 
 //	private void addLoginButtonListener(JButton butn) {
