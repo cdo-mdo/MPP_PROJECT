@@ -127,16 +127,21 @@ public class AddBookPanel {
 			DataAccess da = new DataAccessFacade();
 			HashMap<String,Book> books = da.readBooksMap();
 			String isbn = ISBNField.getText();
-			int numbefOfCopy = Integer.valueOf(numbefOfCopyField.getText());
-			int maximumCheckoutLength = Integer.valueOf(maximumCheckoutLengthField.getText());
-			Book book  = new Book(isbn,titleField.getText(),maximumCheckoutLength,null );
-			for (int i=0;i<numbefOfCopy;i++) {
-				book.addCopy();
+			if (books.containsKey(isbn)) {
+				StatusPanel.STATUS_INSTANCE.setStatus(isbn+ " already exists");
+			}else {
+				int numbefOfCopy = Integer.valueOf(numbefOfCopyField.getText());
+				int maximumCheckoutLength = Integer.valueOf(maximumCheckoutLengthField.getText());
+				Book book  = new Book(isbn,titleField.getText(),maximumCheckoutLength,null );
+				for (int i=0;i<numbefOfCopy;i++) {
+					book.addCopy();
+				}
+				books.put(isbn, book);
+				DataAccessFacade.saveBooks(books);
+				
+				StatusPanel.STATUS_INSTANCE.setStatus("Saved "+titleField.getText() + " with "+numbefOfCopy +" copys");
 			}
-			books.put(isbn, book);
-			DataAccessFacade.saveBooks(books);
-			
-			StatusPanel.STATUS_INSTANCE.setStatus("Saved "+titleField.getText() + " with "+numbefOfCopy +" copys");
+
 		}
 	}
 	public void updateData() {
