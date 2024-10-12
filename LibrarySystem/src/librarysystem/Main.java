@@ -1,10 +1,12 @@
-package lab_app;
+package librarysystem;
 
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+
+import lab_app.LoginWindow;
 
 
 public class Main {

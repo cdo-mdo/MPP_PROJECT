@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import librarysystem.AddBookCopyController;
+import business.AddBookCopyController;
 
 
 public class AddBookCopyPanel extends JPanel {
