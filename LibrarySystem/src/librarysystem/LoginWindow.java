@@ -2,12 +2,14 @@ package librarysystem;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import dataaccess.DataAccessFacade;
+import dataaccess.DataAccess;
+import dataaccess.User;
+import dataaccess.Auth;
 
 public class LoginWindow extends JFrame implements LibWindow {
 	/**
@@ -27,6 +34,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private String pathToImage;
 	private JPanel leftPanel;
 	private JPanel rightPanel;
+	private JTextField userText;
+	private JTextField pwdText;
 
 	private static LibWindow[] allWindows = { 
 			LibrarySystem.INSTANCE, 
@@ -104,8 +113,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 		JLabel username = new JLabel("Username");
 		JLabel password = new JLabel("Password");
 		password.setPreferredSize(username.getPreferredSize());
-		JTextField userText = new JTextField(11);
-		JTextField pwdText = new JTextField(11);
+		userText = new JTextField(11);
+		pwdText = new JTextField(11);
 		usnrupper.add(username);
 		usnrupper.add(userText);
 		pwdlower.add(password);
@@ -149,12 +158,30 @@ public class LoginWindow extends JFrame implements LibWindow {
 
 	private void addLoginButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			LoginWindow.hideAllWindows();
-			LibrarySystem.INSTANCE.setTitle("Lybrary Management System");
-			LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			LibrarySystem.INSTANCE.init();
-			Main.centerFrameOnDesktop(LibrarySystem.INSTANCE);
-			LibrarySystem.INSTANCE.setVisible(true);
+			DataAccess da = new DataAccessFacade();
+			HashMap<String, User> users = da.readUserMap();
+			String ID = userText.getText();
+			String pass = pwdText.getText();
+			System.out.print("fdf");
+			if (users.containsKey(ID)){
+				User user = users.get(ID);
+				if (pass.equals(user.getPassword())) {
+					Auth auth = user.getAuthorization();
+					LoginWindow.hideAllWindows();
+					LibrarySystem.INSTANCE.setTitle("Lybrary Management System");
+					LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					LibrarySystem.INSTANCE.init();
+					Main.centerFrameOnDesktop(LibrarySystem.INSTANCE);
+					LibrarySystem.INSTANCE.setVisible(true);
+					
+				}else {
+					System.out.println("Password is wrong");
+				}
+				
+			}else {
+				System.out.println("ID not found");
+			}
+
 		});
 	}
 
