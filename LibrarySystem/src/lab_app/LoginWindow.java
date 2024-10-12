@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -38,6 +39,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JPanel rightPanel;
 	private JTextField userText;
 	private JTextField pwdText;
+	private JButton signin;
 
 	private static LibWindow[] allWindows = { 
 			LoginWindow.INSTANCE, 
@@ -68,6 +70,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 		setPathToImage();
 		insertSplashImage();
 		addLoginPanel();
+		//set sign in as default button when press enter to login in
+		getRootPane().setDefaultButton(signin);
 		setSize(960, 540);
 		isInitialized = true;
 
@@ -127,7 +131,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 		JPanel upper = new JPanel();
 		JPanel lower = new JPanel();
 		upper.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JButton signin = new JButton("Sign in");
+		signin = new JButton("Sign in");
 		addLoginButtonListener(signin);
 		// signin.addActionListener(Control.INSTANCE.getSubmitLoginListener());
 		JButton exit = new JButton("Exit");
@@ -182,16 +186,15 @@ public class LoginWindow extends JFrame implements LibWindow {
 			            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			            centerFrameOnDesktop(frame);
 			            frame.setVisible(true);
-			            
 			           
 			         });
 					
 				}else {
-					System.out.println("Password is wrong");
+					JOptionPane.showMessageDialog(LoginWindow.this, "Password is wrong! Please try again.");
 				}
 				
 			}else {
-				System.out.println("ID not found");
+				JOptionPane.showMessageDialog(LoginWindow.this, "ID not found! Please try again.");
 			}
 
 		});

@@ -17,6 +17,7 @@ import javax.swing.JSplitPane;
 
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
 /**
@@ -76,7 +77,7 @@ public class MainWindow extends JFrame {
 		createLinkLabels();
 		createMainPanels();
 		createButtonBar();
-		statusPanel = new StatusPanel();
+		statusPanel = StatusPanel.STATUS_INSTANCE;
 		linkList.addListSelectionListener(event -> {
 			String value = linkList.getSelectedValue().getItemName();
 			boolean allowed = linkList.getSelectedValue().highlight();
@@ -104,12 +105,17 @@ public class MainWindow extends JFrame {
 
 		// set up split panes
 
-		JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, 
-				linkList, cards);
-		statusPanel = StatusPanel.STATUS_INSTANCE;
+		JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, linkList, cards);
+		
+		JPanel bottomPanel = new JPanel(new GridLayout(1,2));
+		JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JButton logout = new JButton("Log Out");
+		btnPanel.add(logout);
+		bottomPanel.add(statusPanel);
+		bottomPanel.add(btnPanel);
 		innerPane.setDividerLocation(180);
-		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, 
-				innerPane, statusPanel);
+		
+		JSplitPane outerPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, innerPane, bottomPanel);
 		outerPane.setDividerLocation(432);
 		add(outerPane, BorderLayout.CENTER);
 	}
