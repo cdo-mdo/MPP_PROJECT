@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import dataaccess.DataAccessFacade;
@@ -38,7 +39,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JPanel leftPanel;
 	private JPanel rightPanel;
 	private JTextField userText;
-	private JTextField pwdText;
+	private JPasswordField pwdText;
 	private JButton signin;
 
 	private static LibWindow[] allWindows = { 
@@ -75,6 +76,11 @@ public class LoginWindow extends JFrame implements LibWindow {
 		setSize(960, 540);
 		isInitialized = true;
 
+	}
+	private String getPassword() {
+    	char[] pwdAsChars = pwdText.getPassword();
+		String pwd = new String(pwdAsChars);
+		return pwd;
 	}
 
 	private void formatContentPane() {
@@ -118,7 +124,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 		JLabel password = new JLabel("Password");
 		password.setPreferredSize(username.getPreferredSize());
 		userText = new JTextField(11);
-		pwdText = new JTextField(11);
+		pwdText = new JPasswordField(11);
 		usnrupper.add(username);
 		usnrupper.add(userText);
 		pwdlower.add(password);
@@ -165,7 +171,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 			DataAccess da = new DataAccessFacade();
 			HashMap<String, User> users = da.readUserMap();
 			String ID = userText.getText();
-			String pass = pwdText.getText();
+			String pass = getPassword();
 			if (users.containsKey(ID)){
 				User user = users.get(ID);
 				if (pass.equals(user.getPassword())) {
