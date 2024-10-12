@@ -13,7 +13,7 @@ public class Main {
    public static void main(String[] args) {
 	      EventQueue.invokeLater(() ->
 	         {
-	        	LoginWindow.INSTANCE.setTitle("Lybrary Management System");
+	        	LoginWindow.INSTANCE.setTitle("Library Management System");
 	        	LoginWindow.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        	LoginWindow.INSTANCE.init();
 	            centerFrameOnDesktop(LoginWindow.INSTANCE);

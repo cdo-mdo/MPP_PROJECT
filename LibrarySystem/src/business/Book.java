@@ -23,7 +23,9 @@ final public class Book implements Serializable {
 		this.isbn = isbn;
 		this.title = title;
 		this.maxCheckoutLength = maxCheckoutLength;
-		this.authors = Collections.unmodifiableList(authors);
+		if (authors!=null) {
+			this.authors = Collections.unmodifiableList(authors);
+		}
 		copies = new BookCopy[] { new BookCopy(this, 1, true) };
 	}
 
