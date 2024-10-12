@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -112,6 +113,7 @@ public class CheckoutBookPanel {
 	
 	class SubmitLoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
+
 			DataAccess da = new DataAccessFacade();
 			HashMap<String, LibraryMember> members = da.readMemberMap();
 			String memberIDText = memberID.getText();
@@ -124,6 +126,13 @@ public class CheckoutBookPanel {
 					if (bookcopy == null){
 						StatusPanel.STATUS_INSTANCE.setStatus("The book is not available!");
 					} else {
+						
+						int n = tableModel.getRowCount();
+						System.out.println(n);
+						for (int i=n-1;i>-1;i--) {
+							tableModel.removeRow(i);
+						}
+						
 						bookcopy.changeAvailability();
 						LibraryMember member = members.get(memberIDText);
 						member.addCheckout(bookcopy);
@@ -141,12 +150,12 @@ public class CheckoutBookPanel {
 		}
 	}
 
-//	public static void main(String[] args) {
-//		JFrame a = new JFrame();
-//		a.setSize(640, 360);
-//		JPanel mainPanel = new checkoutBookPanel().getMainPanel();
-//		a.add(mainPanel);
-//		a.setVisible(true);
-//	}
+	public static void main(String[] args) {
+		JFrame a = new JFrame();
+		a.setSize(640, 360);
+		JPanel mainPanel = new CheckoutBookPanel().getMainPanel();
+		a.add(mainPanel);
+		a.setVisible(true);
+	}
 
 }

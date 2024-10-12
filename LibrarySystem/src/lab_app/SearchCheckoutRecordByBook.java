@@ -30,7 +30,7 @@ public class SearchCheckoutRecordByBook {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JScrollPane scrollPane = new JScrollPane();
-
+	private String[] columnNames = {"Name","Member ID", "Checkout Date", "Due Date", "Title", "Copy Number","ISBN"};
 	private JTextField isnb;
 
 	private JButton checkAvailableButton;
@@ -40,12 +40,12 @@ public class SearchCheckoutRecordByBook {
 	public SearchCheckoutRecordByBook() {
 		defineTopPanel();
 		defineMiddlePanel();
-		String[] columnNames = {"Name","Member ID", "Checkout Date", "Due Date", "Title", "Copy Number","ISBN"};
+		
 		tableModel = new DefaultTableModel(columnNames, 0);
 		table = new JTable(tableModel);
         table.setPreferredScrollableViewportSize(new Dimension(600, 100));
         scrollPane = new JScrollPane(table);
-        
+       
 		mainPanel = new JPanel();
 		mainPanel.add(topPanel,BorderLayout.NORTH);
 		mainPanel.add(middlePanel,BorderLayout.CENTER);
@@ -104,6 +104,11 @@ public class SearchCheckoutRecordByBook {
 
 	class SubmitLoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
+
+			int n = tableModel.getRowCount();
+			for (int i=n-1;i>-1;i--) {
+				tableModel.removeRow(i);
+			}
 			DataAccess da = new DataAccessFacade();
 			HashMap<String,Book> books = da.readBooksMap();
 			String isbn = isnb.getText();
