@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AddBookPanel implements MessageableWindow {
+public class AddBookPanel {
 	public JPanel getMainPanel() {
 		return mainPanel;
 	}
@@ -88,28 +88,14 @@ public class AddBookPanel implements MessageableWindow {
 
 		//add button at bottom
 		JButton addBookButton = new JButton("Add Book");
-		attachAddBookButtonListener(addBookButton);
+		
 		JPanel addBookButtonPanel = new JPanel();
 		addBookButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		addBookButtonPanel.add(addBookButton);
 		outerMiddle.add(addBookButtonPanel, BorderLayout.CENTER);
 
 	}
-	private void attachAddBookButtonListener(JButton butn) {
-		butn.addActionListener(evt -> {
-			List<Author> authors = new ArrayList<Author>();
-			String fname = authFirstNameField.getText();
-			String lname = authLastNameField.getText();
 
-			String title = titleField.getText();
-			authors.add(new Author(fname, lname));
-
-			Data.addBookTitle(title);
-			displayInfo("The book " + title + " has been added " +
-			   "to the collection!");
-
-	    });
-	}
 	public void updateData() {
 		// nothing to do
 

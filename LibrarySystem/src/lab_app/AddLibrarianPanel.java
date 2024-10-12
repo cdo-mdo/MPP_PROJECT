@@ -1,4 +1,4 @@
-package librarysystem;
+package lab_app;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +18,7 @@ import business.Address;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade;
 
-public class AddLibrarianWindow extends JPanel {
+public class AddLibrarianPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -27,7 +27,7 @@ public class AddLibrarianWindow extends JPanel {
 			zipPanel, phonePanel;
 	JTextField idText, fnText, lnText, stText, cityText, stateText, zipText, phoneText;
 
-	public AddLibrarianWindow() {
+	public AddLibrarianPanel() {
 		setSize(640, 360);
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainPanel = new JPanel();
@@ -178,7 +178,7 @@ public class AddLibrarianWindow extends JPanel {
 				clearFields();
 				checkStorage();
 			} catch (IllegalArgumentException e) {
-				JOptionPane.showMessageDialog(AddLibrarianWindow.this, e.getMessage());
+				JOptionPane.showMessageDialog(AddLibrarianPanel.this, e.getMessage());
 
 			}
 		}

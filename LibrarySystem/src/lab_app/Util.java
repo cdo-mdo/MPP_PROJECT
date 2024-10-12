@@ -68,13 +68,5 @@ public class Util {
 		}
 	}
 
-	public static User findUser(List<User> list, User user) {
-		for (User u : list) {
-			if (u.equals(user)) {
-				return u;
-			}
-		}
-		return null;
 
-	}
 }

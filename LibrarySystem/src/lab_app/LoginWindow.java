@@ -170,7 +170,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 					LoginWindow.hideAllWindows();
 					EventQueue.invokeLater(() ->
 			         {
-			        	SampleFrame frame = new SampleFrame();
+			        	MainWindow frame = new MainWindow();
 			        	if (auth==Auth.ADMIN) {
 			        		frame.updateList(frame.group2);
 			        	}else if(auth==Auth.LIBRARIAN) {

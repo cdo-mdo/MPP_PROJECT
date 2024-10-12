@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * @author corazza
  *
  */
-public class SampleFrame extends JFrame {
+public class MainWindow extends JFrame {
 	
 	String[] links;
 	JList<ListItem> linkList;
@@ -62,7 +62,7 @@ public class SampleFrame extends JFrame {
 		return linkList;
 	}
 
-	public SampleFrame() {
+	public MainWindow() {
 		setSize(960, 540);
 
 		createLinkLabels();
@@ -189,7 +189,7 @@ public class SampleFrame extends JFrame {
 		// item1 panel
 
 		cards = new JPanel(new CardLayout());
-		cards.add(new AddLibrarianWindow(), item1.getItemName());
+		cards.add(new AddLibrarianPanel(), item1.getItemName());
 		cards.add(new CheckoutBookPanel().getMainPanel(), item2.getItemName());
 		cards.add(new AddBookCopyPanel(), item3.getItemName());
 
