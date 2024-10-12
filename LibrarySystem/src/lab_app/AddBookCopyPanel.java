@@ -30,7 +30,7 @@ public class AddBookCopyPanel extends JPanel {
 	JTextField copiesText;
 	JButton addButton;
 	
-	StatusPanel statusPanel;
+	//StatusPanel statusPanel;
 	
 	public String getISBNText() {
 		return isbnText.getText();
@@ -41,13 +41,14 @@ public class AddBookCopyPanel extends JPanel {
 	}
 	
 	public void setStatus(String message) {
-		statusPanel.setStatus(message);
+		StatusPanel.STATUS_INSTANCE.setStatus(message);
+		//statusPanel.setStatus(message);
 	}
 	
-	public AddBookCopyPanel(StatusPanel statusPanel) {
+	public AddBookCopyPanel() {//StatusPanel statusPanel) {
 		
 		setSize(780, 540);
-		this.statusPanel = statusPanel;
+//		this.statusPanel = statusPanel;
 		
 		this.setLayout(new GridLayout(15,1));
 		
