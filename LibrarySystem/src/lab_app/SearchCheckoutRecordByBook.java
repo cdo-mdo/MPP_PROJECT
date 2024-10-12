@@ -5,8 +5,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -33,7 +38,8 @@ public class SearchCheckoutRecordByBook {
 	private String[] columnNames = {"Name","Member ID", "Checkout Date", "Due Date", "Title", "Copy Number","ISBN"};
 	private JTextField isnb;
 
-	private JButton checkAvailableButton;
+	private JButton searchButton;
+	private JButton sortButton;
 	private DefaultTableModel tableModel;
 	private JTable table;
 
@@ -84,10 +90,15 @@ public class SearchCheckoutRecordByBook {
 
 		JPanel addItemPanel1 = new JPanel();
 		addItemPanel1.setLayout(new BorderLayout());
-		checkAvailableButton = new JButton("Search");
-		addItemPanel1.add(checkAvailableButton, BorderLayout.SOUTH);
+		searchButton = new JButton("Search");
+		addItemPanel1.add(searchButton, BorderLayout.CENTER);
+		
+		
+		sortButton = new JButton("Sort by DueDay");
+		addItemPanel1.add(sortButton, BorderLayout.SOUTH);
 
-		checkAvailableButton.addActionListener(new SubmitLoginListener());
+		searchButton.addActionListener(new SubmitLoginListener());
+		sortButton.addActionListener(new SubmitSortListener());
 
 		middlePanel.add(addItemPanel, BorderLayout.NORTH);
 		middlePanel.add(addItemPanel1, BorderLayout.CENTER);
@@ -95,6 +106,7 @@ public class SearchCheckoutRecordByBook {
 	}
 
 	public void defineScrollPane(String[][] data,String isbn) {
+		
 		for (String[] row : data) {
 			if(row[6].equals(isbn)) {
 				tableModel.addRow(row);
@@ -125,6 +137,45 @@ public class SearchCheckoutRecordByBook {
 
 		}
 	}
+	
+	class SubmitSortListener implements ActionListener {
+		public void actionPerformed(ActionEvent evt) {
+			sortTableModelByColumn(tableModel,3);
+
+		}
+	}
+    private void sortTableModelByColumn(DefaultTableModel model, int columnIndex) {
+        // Get all rows from the model into a List
+        List<Object[]> rows = new ArrayList<>();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            rows.add(new Object[]{
+                model.getValueAt(i, 0),  // Name column
+                model.getValueAt(i, 1),
+                model.getValueAt(i, 2),
+                model.getValueAt(i, 3),
+                model.getValueAt(i, 4),
+                model.getValueAt(i, 5),
+                model.getValueAt(i, 6)// Age column
+            });
+        }
+
+        // Sort the list based on the specified column index
+        Collections.sort(rows, new Comparator<Object[]>() {
+            @Override
+            public int compare(Object[] row1, Object[] row2) {
+                // For numerical sorting of the "Age" column, cast to Integer
+                String due1 = row1[columnIndex].toString();
+                String due2 = row2[columnIndex].toString();
+                return due1.compareTo(due2);
+            }
+        });
+
+        // Clear the model and add the sorted rows back
+        model.setRowCount(0); // Remove all existing rows
+        for (Object[] row : rows) {
+            model.addRow(row);
+        }
+    }
 
 	public static void main(String[] args) {
 		JFrame a = new JFrame();
