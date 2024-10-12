@@ -38,6 +38,7 @@ public class MainWindow extends JFrame {
 	public static final String ADD_MEMBER = "Add Library Member";
 	public static final String CHECKOUT_BOOK = "Checkout Book";
 	public static final String ADD_COPY_OF_BOOK = "Add Copy of Book";
+	public static final String SEARCH_CHECKOUT = "Search checkout record by Member";
 //	Login login = new Login();
 //	Titles titles = new Titles();
 //	AddBook add = new AddBook();
@@ -46,8 +47,9 @@ public class MainWindow extends JFrame {
 	ListItem item1 = new ListItem(ADD_MEMBER, true);
 	ListItem item2 = new ListItem(CHECKOUT_BOOK, true);
 	ListItem item3 = new ListItem(ADD_COPY_OF_BOOK, true);
+	ListItem item4 = new ListItem(SEARCH_CHECKOUT, true);
 	
-	ListItem[] group1 = {item2  };
+	ListItem[] group1 = {item2, item4 };
 	ListItem[] group2 = { item1, item3 };
 
 	public ListItem[] getGroup1Items() {
@@ -153,6 +155,7 @@ public class MainWindow extends JFrame {
 		model.addElement(item1);
 		model.addElement(item2);
 		model.addElement(item3);
+		model.addElement(item4);
 	
 		linkList = new JList<ListItem>(model);
 	    linkList.setCellRenderer(new DefaultListCellRenderer() {
@@ -192,6 +195,7 @@ public class MainWindow extends JFrame {
 		cards.add(new AddLibrarianPanel(), item1.getItemName());
 		cards.add(new CheckoutBookPanel().getMainPanel(), item2.getItemName());
 		cards.add(new AddBookCopyPanel(), item3.getItemName());
+		cards.add(new SearchCheckoutRecordByMember().getMainPanel(), item4.getItemName());
 
 	}
 

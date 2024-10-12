@@ -162,7 +162,6 @@ public class LoginWindow extends JFrame implements LibWindow {
 			HashMap<String, User> users = da.readUserMap();
 			String ID = userText.getText();
 			String pass = pwdText.getText();
-			System.out.print("fdf");
 			if (users.containsKey(ID)){
 				User user = users.get(ID);
 				if (pass.equals(user.getPassword())) {
