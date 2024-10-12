@@ -35,6 +35,7 @@ public class MainWindow extends JFrame {
 	JPanel buttonBar;
 	JLabel label;
 	StatusPanel statusPanel;
+	public static final String WELCOME = "WELCOME";
 	public static final String ADD_MEMBER = "Add Library Member";
 	public static final String CHECKOUT_BOOK = "Checkout Book";
 	public static final String ADD_COPY_OF_BOOK = "Add Copy of Book";
@@ -44,13 +45,14 @@ public class MainWindow extends JFrame {
 //	AddBook add = new AddBook();
 	
 	// list items which will be added to the ListModel for linkList
+	ListItem item = new ListItem(WELCOME, true);
 	ListItem item1 = new ListItem(ADD_MEMBER, true);
 	ListItem item2 = new ListItem(CHECKOUT_BOOK, true);
 	ListItem item3 = new ListItem(ADD_COPY_OF_BOOK, true);
 	ListItem item4 = new ListItem(SEARCH_CHECKOUT, true);
 	
-	ListItem[] group1 = {item2, item4 };
-	ListItem[] group2 = { item1, item3 };
+	ListItem[] group1 = {item,item2, item4 };
+	ListItem[] group2 = {item, item1, item3 };
 
 	public ListItem[] getGroup1Items() {
 		return group1;
@@ -80,9 +82,18 @@ public class MainWindow extends JFrame {
 			//System.out.println("selected = " + value);
 			CardLayout cl = (CardLayout) (cards.getLayout());
 
+//			if (!allowed) {
+//				linkList.setSelectedIndex(0);
+//				if (linkList.getSelectedValue().highlight()) {
+//					value = item1.getItemName();
+//				}else {
+//					linkList.setSelectedIndex(1);
+//					value = item2.getItemName();
+//				}
+//			}
 			if (!allowed) {
-				value = item1.getItemName();
 				linkList.setSelectedIndex(0);
+				value = item.getItemName();
 			}
 			cl.show(cards, value);
 		});
@@ -152,6 +163,7 @@ public class MainWindow extends JFrame {
 	@SuppressWarnings("serial")
 	public void createLinkLabels() {
 	    DefaultListModel<ListItem> model = new DefaultListModel<>();
+	    model.addElement(item);
 		model.addElement(item1);
 		model.addElement(item2);
 		model.addElement(item3);
@@ -192,6 +204,7 @@ public class MainWindow extends JFrame {
 		// item1 panel
 
 		cards = new JPanel(new CardLayout());
+		cards.add(new WelcomePanel().getMainPanel(), item.getItemName());
 		cards.add(new AddLibrarianPanel(), item1.getItemName());
 		cards.add(new CheckoutBookPanel().getMainPanel(), item2.getItemName());
 		cards.add(new AddBookCopyPanel(), item3.getItemName());

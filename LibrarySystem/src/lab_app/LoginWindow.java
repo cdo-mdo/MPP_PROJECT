@@ -182,6 +182,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 			            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			            centerFrameOnDesktop(frame);
 			            frame.setVisible(true);
+			            
+			           
 			         });
 					
 				}else {
