@@ -21,9 +21,9 @@ import business.BookCopy;
 import business.LibraryMember;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
-import librarysystem.StatusPanel;
 
-public class checkoutBookPanel {
+
+public class CheckoutBookPanel {
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
@@ -36,7 +36,7 @@ public class checkoutBookPanel {
 	private JTable table;
 	private JScrollPane scrollPane;
 	
-	public checkoutBookPanel() {
+	public CheckoutBookPanel() {
 		mainPanel = new JPanel();
 		defineTopPanel();
 		defineMiddlePanel();

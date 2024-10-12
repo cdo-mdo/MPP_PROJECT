@@ -9,14 +9,14 @@ import javax.swing.JFrame;
 
 public class Main {
    public static void main(String[] args) {
-      EventQueue.invokeLater(() ->
-         {
-            JFrame frame = new BookClub();
-            frame.setTitle("Book Club");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            centerFrameOnDesktop(frame);
-            frame.setVisible(true);
-         });
+	      EventQueue.invokeLater(() ->
+	         {
+	        	LoginWindow.INSTANCE.setTitle("Lybrary Management System");
+	        	LoginWindow.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        	LoginWindow.INSTANCE.init();
+	            centerFrameOnDesktop(LoginWindow.INSTANCE);
+	            LoginWindow.INSTANCE.setVisible(true);
+	         });
    }
 
    public static void centerFrameOnDesktop(Component f) {

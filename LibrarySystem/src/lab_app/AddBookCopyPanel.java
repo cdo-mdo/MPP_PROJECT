@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import librarysystem.AddBookCopyController;
-import librarysystem.StatusPanel;
+
 
 public class AddBookCopyPanel extends JPanel {
 	/**

@@ -20,7 +20,7 @@ import business.ControllerInterface;
 import business.SystemController;
 
 import lab_app.AddBookCopyPanel;
-import lab_app.checkoutBookPanel;
+import lab_app.CheckoutBookPanel;
 
 public class LibrarySystem extends JFrame implements LibWindow {
 	/**
@@ -103,7 +103,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
     public void createPanels() {
     	menuPanel1 = new AddLibrarianWindow();
     	menuPanel1.setLayout(new FlowLayout(FlowLayout.LEFT));
-        menuPanel2 = new checkoutBookPanel().getMainPanel();
+        menuPanel2 = new CheckoutBookPanel().getMainPanel();
         menuPanel2.setLayout(new FlowLayout(FlowLayout.LEFT));
 	    menuPanel3 = new AddBookCopyPanel();//statusPanel);
         
