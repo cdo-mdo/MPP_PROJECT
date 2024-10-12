@@ -41,6 +41,7 @@ public class MainWindow extends JFrame {
 	public static final String ADD_COPY_OF_BOOK = "Add Copy of Book";
 	public static final String SEARCH_CHECKOUT = "Search checkout record by Member";
 	public static final String ADD_BOOK = "Add new book";
+	public static final String SEARCH_CHECKOUT_BOOK = "Search checkout record by Book";
 //	Login login = new Login();
 //	Titles titles = new Titles();
 //	AddBook add = new AddBook();
@@ -52,8 +53,9 @@ public class MainWindow extends JFrame {
 	ListItem item3 = new ListItem(ADD_COPY_OF_BOOK, true);
 	ListItem item4 = new ListItem(SEARCH_CHECKOUT, true);
 	ListItem item5 = new ListItem(ADD_BOOK, true);
+	ListItem item6 = new ListItem(SEARCH_CHECKOUT_BOOK, true);
 	
-	ListItem[] group1 = {item,item2, item4 ,item5};
+	ListItem[] group1 = {item,item2, item4 ,item5,item6};
 	ListItem[] group2 = {item, item1, item3 };
 
 	public ListItem[] getGroup1Items() {
@@ -171,6 +173,7 @@ public class MainWindow extends JFrame {
 		model.addElement(item3);
 		model.addElement(item4);
 		model.addElement(item5);
+		model.addElement(item6);
 	
 		linkList = new JList<ListItem>(model);
 	    linkList.setCellRenderer(new DefaultListCellRenderer() {
@@ -213,6 +216,7 @@ public class MainWindow extends JFrame {
 		cards.add(new AddBookCopyPanel(), item3.getItemName());
 		cards.add(new SearchCheckoutRecordByMember().getMainPanel(), item4.getItemName());
 		cards.add(new AddBookPanel().getMainPanel(), item5.getItemName());
+		cards.add(new SearchCheckoutRecordByBook().getMainPanel(), item6.getItemName());
 
 	}
 

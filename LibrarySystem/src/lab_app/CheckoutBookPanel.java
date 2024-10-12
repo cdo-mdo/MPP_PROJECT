@@ -41,7 +41,7 @@ public class CheckoutBookPanel {
 		defineTopPanel();
 		defineMiddlePanel();
 		
-		String[] columnNames = {"Member ID","Name", "Checkout Date", "Due Date", "Title", "Copy Number"};
+		String[] columnNames = {"Name","Member ID", "Checkout Date", "Due Date", "Title", "Copy Number","ISBN"};
 		tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         table.setPreferredScrollableViewportSize(new Dimension(600, 100));

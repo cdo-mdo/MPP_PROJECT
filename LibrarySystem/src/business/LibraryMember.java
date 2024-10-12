@@ -32,7 +32,7 @@ final public class LibraryMember extends Person implements Serializable {
 	}
 	
 	public String[][] getAllCheckouts() {
-		String[][] data = new String[checkouts.size()][6];
+		String[][] data = new String[checkouts.size()][7];
 		for (int i=0;i<checkouts.size();i++) {
 			data[i][0] = this.getFirstName();
 			data[i][1] = memberId;
@@ -40,6 +40,7 @@ final public class LibraryMember extends Person implements Serializable {
 			data[i][3] = checkouts.get(i).dueDate.toString();
 			data[i][4] = checkouts.get(i).bookCopy.getBook().getTitle();
 			data[i][5] = String.valueOf(checkouts.get(i).bookCopy.getCopyNum());
+			data[i][6] = checkouts.get(i).bookCopy.getBook().getIsbn();
 		}
 		return data;
 	}

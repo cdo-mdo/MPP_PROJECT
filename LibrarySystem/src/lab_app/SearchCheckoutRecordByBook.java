@@ -25,25 +25,32 @@ import business.LibraryMember;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
-public class SearchCheckoutRecordByMember {
+public class SearchCheckoutRecordByBook {
 	private JPanel mainPanel;
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JScrollPane scrollPane = new JScrollPane();
 
 	private JTextField isnb;
-	private JTextField memberID;
 
 	private JButton checkAvailableButton;
+	private DefaultTableModel tableModel;
+	private JTable table;
 
-	public SearchCheckoutRecordByMember() {
+	public SearchCheckoutRecordByBook() {
 		defineTopPanel();
 		defineMiddlePanel();
+		String[] columnNames = {"Name","Member ID", "Checkout Date", "Due Date", "Title", "Copy Number","ISBN"};
+		tableModel = new DefaultTableModel(columnNames, 0);
+		table = new JTable(tableModel);
+        table.setPreferredScrollableViewportSize(new Dimension(600, 100));
+        scrollPane = new JScrollPane(table);
+        
 		mainPanel = new JPanel();
-		mainPanel.add(topPanel);
-		mainPanel.add(middlePanel);
+		mainPanel.add(topPanel,BorderLayout.NORTH);
+		mainPanel.add(middlePanel,BorderLayout.CENTER);
 		// defineScrollPane();
-		mainPanel.add(scrollPane);
+		mainPanel.add(scrollPane, BorderLayout.SOUTH);
 
 	}
 
@@ -69,10 +76,10 @@ public class SearchCheckoutRecordByMember {
 
 		JPanel N1 = new JPanel();
 		N1.setLayout(new FlowLayout(FlowLayout.CENTER));
-		JLabel name1 = new JLabel("Member ID");
-		memberID = new JTextField(10);
+		JLabel name1 = new JLabel("ISBN");
+		isnb = new JTextField(10);
 		N1.add(name1);
-		N1.add(memberID);
+		N1.add(isnb);
 		addItemPanel.add(N1, BorderLayout.NORTH);
 
 		JPanel addItemPanel1 = new JPanel();
@@ -87,26 +94,28 @@ public class SearchCheckoutRecordByMember {
 
 	}
 
-	public void defineScrollPane(String[][] data) {
-		String[] columnNames = { "Member ID", "Name", "Checkout Date", "Due Date", "Title", "Copy Number" };
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable table = new JTable(model);
-		scrollPane = new JScrollPane(table);
+	public void defineScrollPane(String[][] data,String isbn) {
+		for (String[] row : data) {
+			if(row[6].equals(isbn)) {
+				tableModel.addRow(row);
+			}
+        }
 	}
 
 	class SubmitLoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 			DataAccess da = new DataAccessFacade();
-			HashMap<String, LibraryMember> members = da.readMemberMap();
-			String memberIDText = memberID.getText();
+			HashMap<String,Book> books = da.readBooksMap();
+			String isbn = isnb.getText();
 
-			if (members.containsKey(memberIDText)) {
-				LibraryMember member = members.get(memberIDText);
-
-				member.displayRecord();
+			if (books.containsKey(isbn)) {
+				HashMap<String, LibraryMember> members = da.readMemberMap();
+				for (LibraryMember member : members.values()) {
+					defineScrollPane(member.getAllCheckouts(),isbn);
+				}
 
 			} else {
-				StatusPanel.STATUS_INSTANCE.setStatus("Member ID not found");
+				StatusPanel.STATUS_INSTANCE.setStatus("ISBN not found");
 			}
 
 		}
@@ -115,7 +124,7 @@ public class SearchCheckoutRecordByMember {
 	public static void main(String[] args) {
 		JFrame a = new JFrame();
 		a.setSize(640, 360);
-		JPanel mainPanel = new SearchCheckoutRecordByMember().getMainPanel();
+		JPanel mainPanel = new SearchCheckoutRecordByBook().getMainPanel();
 		a.add(mainPanel);
 		a.setVisible(true);
 	}
