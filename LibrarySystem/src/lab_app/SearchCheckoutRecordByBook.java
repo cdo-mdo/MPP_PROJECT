@@ -92,7 +92,7 @@ public class SearchCheckoutRecordByBook {
 		sortButton = new JButton("Sort by DueDay");
 		addItemPanel1.add(sortButton);
 
-		searchButton.addActionListener(new SubmitLoginListener());
+		searchButton.addActionListener(new SubmitSearchListener());
 		sortButton.addActionListener(new SubmitSortListener());
 
 		middlePanel.add(addItemPanel, BorderLayout.NORTH);
@@ -109,7 +109,7 @@ public class SearchCheckoutRecordByBook {
 		}
 	}
 
-	class SubmitLoginListener implements ActionListener {
+	class SubmitSearchListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
 
 			int n = tableModel.getRowCount();

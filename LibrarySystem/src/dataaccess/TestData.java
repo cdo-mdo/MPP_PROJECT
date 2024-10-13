@@ -107,6 +107,9 @@ public class TestData {
 			add(new User("101", "xyz", Auth.LIBRARIAN));
 			add(new User("102", "abc", Auth.ADMIN));
 			add(new User("103", "111", Auth.BOTH));
+			add(new User("Alice", "Alice", Auth.LIBRARIAN));
+			add(new User("Alex", "Alex", Auth.ADMIN));
+			add(new User("Henry", "Henry", Auth.BOTH));
 		}
 	};
 }
