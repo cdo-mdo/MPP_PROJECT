@@ -28,20 +28,16 @@ public class AddLibrarianPanel extends JPanel {
 	JTextField idText, fnText, lnText, stText, cityText, stateText, zipText, phoneText;
 
 	public AddLibrarianPanel() {
-		setSize(640, 360);
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainPanel = new JPanel();
 		addLibrarian();
 		add(mainPanel);
 		setVisible(true);
-
-		//checkStorage();
 	}
 
 	private void addLibrarian() {
 
 		topPanel = new JPanel();
-		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5));
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 4));
 		JLabel label = new JLabel("Add a New Librarian");
 		label.setForeground(Color.BLUE.darker().darker());
 		label.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -106,7 +102,6 @@ public class AddLibrarianPanel extends JPanel {
 		phonePanel.add(phoneLabel);
 		phonePanel.add(phoneText);
 
-		// fnLabel.setPreferredSize(phoneLabel.getPreferredSize());
 		idLabel.setPreferredSize(fnLabel.getPreferredSize());
 		lnLabel.setPreferredSize(fnLabel.getPreferredSize());
 		stLabel.setPreferredSize(fnLabel.getPreferredSize());
@@ -130,56 +125,33 @@ public class AddLibrarianPanel extends JPanel {
 		upper.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JButton submit = new JButton("Submit");
 		submit.addActionListener(new SubmitButtonListener());
-		// JButton back = new JButton("Return");
-		// back.addActionListener(evt -> Control.INSTANCE.backToStart(this));
 		upper.add(submit);
-		// upper.add(back);
 		lower.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		lowerPanel.add(upper, BorderLayout.NORTH);
 		lowerPanel.add(lower, BorderLayout.CENTER);
 
-		// mainPanel.add(mainPanel);
 		mainPanel.setLayout(new BorderLayout(12, 12));
 		mainPanel.add(topPanel, BorderLayout.NORTH);
 		mainPanel.add(middlePanel, BorderLayout.CENTER);
 		mainPanel.add(lowerPanel, BorderLayout.SOUTH);
-		// getContentPane().add(mainPanel);
-
-	}
-
-	private void checkStorage() {
-		DataAccessFacade userList = new DataAccessFacade();
-		HashMap<String, LibraryMember> hm = userList.readMemberMap();
-		String key = idText.getText();
-		LibraryMember member = hm.get(key);
-
-		if (member != null) {
-			System.out.println(member.toString());
-		} else {
-			System.out.println("User not found for key: " + key);
-		}
 	}
 
 	class SubmitButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent evt) {
-
 			try {
 				validateFields();
-
-				Address memberAddress = new Address(stText.getText(), cityText.getText(), stateText.getText(),
-						zipText.getText());
-
-				LibraryMember newMember = new LibraryMember(idText.getText(), fnText.getText(), lnText.getText(),
-						phoneText.getText(), memberAddress);
-
-				DataAccessFacade newDAF = new DataAccessFacade();
-				newDAF.saveNewMember(newMember);
-
+				Address address = new Address(getStText(), getCityText(), getStateText(), getZipText());
+				LibraryMember member = new LibraryMember(getIdText(), getFnText(), getLnText(), getPhoneText(),
+						address);
+				DataAccessFacade access = new DataAccessFacade();
+				access.saveNewMember(member);
+				HashMap<String, LibraryMember> hm = access.readMemberMap();
+				String key = idText.getText();
+				if (hm.get(key) != null)
+					StatusPanel.STATUS_INSTANCE.setStatus(member.toString());
 				clearFields();
-				checkStorage();
 			} catch (IllegalArgumentException e) {
 				JOptionPane.showMessageDialog(AddLibrarianPanel.this, e.getMessage());
-
 			}
 		}
 
@@ -277,8 +249,4 @@ public class AddLibrarianPanel extends JPanel {
 		zipText.setText("");
 		phoneText.setText("");
 	}
-
-//    public static void main(String[] args) {
-//        new AddLibrarianWindow();
-//    }
 }

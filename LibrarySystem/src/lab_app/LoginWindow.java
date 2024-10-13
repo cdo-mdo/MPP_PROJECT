@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,9 +44,23 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private String ID;
 	private String pass;
 
-	private static LibWindow[] allWindows = { 
-		LoginWindow.INSTANCE, 
-	};
+	private static LibWindow[] allWindows = { LoginWindow.INSTANCE, };
+
+	private LoginWindow() {
+	}
+
+	@Override
+	public void init() {
+		formatContentPane();
+		setPathToImage();
+		insertSplashImage();
+		addLoginPanel();
+		// set sign in as default button when press enter to login in
+		getRootPane().setDefaultButton(signin);
+		setSize(960, 540);
+		isInitialized = true;
+
+	}
 
 	@Override
 	public boolean isInitialized() {
@@ -64,24 +77,9 @@ public class LoginWindow extends JFrame implements LibWindow {
 	public void clear() {
 		messageBar.setText("");
 	}
-	
-	private LoginWindow() {
-	}
 
-	@Override
-	public void init() {
-    	formatContentPane();
-		setPathToImage();
-		insertSplashImage();
-		addLoginPanel();
-		//set sign in as default button when press enter to login in
-		getRootPane().setDefaultButton(signin);
-		setSize(960, 540);
-		isInitialized = true;
-
-	}
 	private String getPassword() {
-    	char[] pwdAsChars = pwdText.getPassword();
+		char[] pwdAsChars = pwdText.getPassword();
 		String pwd = new String(pwdAsChars);
 		return pwd;
 	}
@@ -96,7 +94,6 @@ public class LoginWindow extends JFrame implements LibWindow {
 		String currDirectory = System.getProperty("user.dir");
 		pathToImage = currDirectory + File.separator + "src" + File.separator + "librarysystem" + File.separator
 				+ "pexels-gesel-757855.jpg";
-		System.out.println(pathToImage);
 	}
 
 	private void insertSplashImage() {
@@ -110,7 +107,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 		rightPanel = new JPanel();
 		JPanel mainLoginPanel = new JPanel();
 
- 		JPanel topPanel = new JPanel();
+		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		JLabel label = new JLabel("Welcome to the Library System. Please login!");
 		label.setForeground(Color.BLUE.darker().darker());
@@ -142,10 +139,9 @@ public class LoginWindow extends JFrame implements LibWindow {
 		upper.setLayout(new FlowLayout(FlowLayout.CENTER));
 		signin = new JButton("Sign in");
 		addLoginButtonListener(signin);
-		// signin.addActionListener(Control.INSTANCE.getSubmitLoginListener());
 		JButton exit = new JButton("Exit");
 		exit.addActionListener(new TerminateProgram());
-		
+
 		upper.add(signin);
 		upper.add(exit);
 		lower.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -156,90 +152,75 @@ public class LoginWindow extends JFrame implements LibWindow {
 		mainLoginPanel.add(topPanel, BorderLayout.NORTH);
 		mainLoginPanel.add(middlePanel, BorderLayout.CENTER);
 		mainLoginPanel.add(lowerPanel, BorderLayout.SOUTH);
-		// getContentPane().add(mainPanel);
 
 		rightPanel.add(mainLoginPanel);
 		mainPanel.add(rightPanel);
 	}
-	
-	class TerminateProgram implements ActionListener{
+
+	class TerminateProgram implements ActionListener {
 		@Override
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);  // Terminates the program
-        }
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0); // Terminates the program
+		}
 	}
 
 	private void addLoginButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			DataAccess da = new DataAccessFacade();
 			HashMap<String, User> users = da.readUserMap();
-			for (Map.Entry<String, User> entry : users.entrySet()) {
-			    System.out.println("Key: " + entry.getKey() + ", User: " + entry.getValue());
-			}
 			ID = userText.getText();
 			pass = getPassword();
-			
-			System.out.println(ID);
-			System.out.println(pass);
-			
-			if (users.containsKey(ID)){
+			if (users.containsKey(ID)) {
 				User user = users.get(ID);
 				if (pass.equals(user.getPassword())) {
 					Auth auth = user.getAuthorization();
-					System.out.println(auth.toString());
 					LoginWindow.hideAllWindows();
-					EventQueue.invokeLater(() ->
-			         {
-			        	MainWindow frame = new MainWindow();
-			        	if (auth==Auth.ADMIN) {
-			        		frame.updateList(frame.group2);
-			        	}else if(auth==Auth.LIBRARIAN) {
-			        		frame.updateList(frame.group1);
-			        	}else {
-			        		frame.updateList(null);
-			        	}
-			        	clearFields();
-			            frame.setTitle("Library Management System");
-			            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			            centerFrameOnDesktop(frame);
-			            frame.setVisible(true);
-			            
-			         });
-					
-				}else {
+					EventQueue.invokeLater(() -> {
+						MainWindow frame = new MainWindow();
+						if (auth == Auth.ADMIN) {
+							frame.updateList(frame.group2);
+						} else if (auth == Auth.LIBRARIAN) {
+							frame.updateList(frame.group1);
+						} else {
+							frame.updateList(null);
+						}
+						clearFields();
+						frame.setTitle("Library Management System");
+						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						centerFrameOnDesktop(frame);
+						frame.setVisible(true);
+
+					});
+
+				} else {
 					JOptionPane.showMessageDialog(LoginWindow.this, "Password is wrong! Please try again.");
 				}
-				
-			}else {
+
+			} else {
 				JOptionPane.showMessageDialog(LoginWindow.this, "Username not found! Please try again.");
 			}
 
 		});
 	}
-	   public static void centerFrameOnDesktop(Component f) {
-			Toolkit toolkit = Toolkit.getDefaultToolkit();
-			int height = toolkit.getScreenSize().height;
-			int width = toolkit.getScreenSize().width;
-			int frameHeight = f.getSize().height;
-			int frameWidth = f.getSize().width;
-			f.setLocation(((width - frameWidth) / 2), (height - frameHeight) / 3);
-		}
+
+	public static void centerFrameOnDesktop(Component f) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		int height = toolkit.getScreenSize().height;
+		int width = toolkit.getScreenSize().width;
+		int frameHeight = f.getSize().height;
+		int frameWidth = f.getSize().width;
+		f.setLocation(((width - frameWidth) / 2), (height - frameHeight) / 3);
+	}
+
 	public static void hideAllWindows() {
 		for (LibWindow frame : allWindows) {
 			frame.setVisible(false);
 		}
 	}
-	
+
 	private void clearFields() {
 		userText.setText("");
 		pwdText.setText("");
 	}
-
-//	private void addLoginButtonListener(JButton butn) {
-//		butn.addActionListener(evt -> {
-//			JOptionPane.showMessageDialog(this,"Successful Login");
-//
-//		});
-//	}
 
 }

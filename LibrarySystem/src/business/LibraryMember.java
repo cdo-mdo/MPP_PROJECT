@@ -18,22 +18,21 @@ final public class LibraryMember extends Person implements Serializable {
 		return memberId;
 	}
 
-	
 	public void addCheckout(BookCopy bookCopy) {
 		checkouts.add(new CheckoutRecordEntry(bookCopy));
-		
+
 	}
-	
+
 	public void displayRecord() {
 		for (CheckoutRecordEntry checkout : checkouts) {
 			String m = memberId + checkout;
 			System.out.println(m);
 		}
 	}
-	
+
 	public String[][] getAllCheckouts() {
 		String[][] data = new String[checkouts.size()][7];
-		for (int i=0;i<checkouts.size();i++) {
+		for (int i = 0; i < checkouts.size(); i++) {
 			data[i][0] = this.getFirstName();
 			data[i][1] = memberId;
 			data[i][2] = checkouts.get(i).checkoutDate.toString();
@@ -45,10 +44,15 @@ final public class LibraryMember extends Person implements Serializable {
 		return data;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() + ", "
+//				+ getTelephone() + " " + getAddress();
+//	}
+
 	@Override
 	public String toString() {
-		return "Member Info: " + "ID: " + memberId + ", name: " + getFirstName() + " " + getLastName() + ", "
-				+ getTelephone() + " " + getAddress();
+		return "Member Added: " + "ID: " + memberId + " - " + getFirstName() + " " + getLastName();
 	}
 
 	private static final long serialVersionUID = -2226197306790714013L;

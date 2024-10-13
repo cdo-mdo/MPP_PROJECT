@@ -1,51 +1,42 @@
 package lab_app;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import javax.swing.JButton;
+import java.io.File;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-
-import business.Book;
-import business.BookCopy;
-import business.LibraryMember;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
-
 
 public class WelcomePanel {
 	private JPanel mainPanel;
-	private JPanel topPanel;
-	private JPanel middlePanel;
-	private JTextField isnb;
-	private JTextField memberID;
+	private String pathToImage;
 
-	private JButton checkAvailableButton;
-	
-	private DefaultTableModel tableModel;
-	private JTable table;
-	private JScrollPane scrollPane;
-	
 	public WelcomePanel() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
-		JLabel welcome = new JLabel("WELCOME TO LIBRARY MANAGEMENT SYSTEM");
-		mainPanel.add(welcome);
-		
+		setPathToImage();
+		insertSplashImage();
+		//JLabel welcome = new JLabel("WELCOME TO LIBRARY MANAGEMENT SYSTEM");
+		//mainPanel.add(welcome);
+
 	}
+
 	public JPanel getMainPanel() {
 		return mainPanel;
+	}
+	
+	private void setPathToImage() {
+		String currDirectory = System.getProperty("user.dir");
+		pathToImage = currDirectory + File.separator + "src" + File.separator + "librarysystem" + File.separator
+				+ "pexels-repuding-12064.jpg";
+	}
+	
+	private void insertSplashImage() {
+		JPanel imagePanel = new JPanel();
+		ImageIcon image = new ImageIcon(pathToImage);
+		imagePanel.add(new JLabel(image));
+		mainPanel.add(imagePanel);
 	}
 
 	public static void main(String[] args) {

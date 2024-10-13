@@ -1,17 +1,14 @@
 package lab_app;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,8 +16,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import business.Book;
-import business.BookCopy;
 import business.LibraryMember;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
@@ -31,7 +26,6 @@ public class SearchCheckoutRecordByMember {
 	private JPanel middlePanel;
 	private JScrollPane scrollPane = new JScrollPane();
 
-	private JTextField isnb;
 	private JTextField memberID;
 
 	private JButton checkAvailableButton;
@@ -39,11 +33,10 @@ public class SearchCheckoutRecordByMember {
 	public SearchCheckoutRecordByMember() {
 		defineTopPanel();
 		defineMiddlePanel();
-		mainPanel = new JPanel();
-		mainPanel.add(topPanel);
-		mainPanel.add(middlePanel);
-		// defineScrollPane();
-		mainPanel.add(scrollPane);
+		mainPanel = new JPanel(new BorderLayout());
+		mainPanel.add(topPanel, BorderLayout.NORTH);
+		mainPanel.add(middlePanel, BorderLayout.CENTER);
+		mainPanel.add(scrollPane, BorderLayout.SOUTH);
 
 	}
 
@@ -53,9 +46,11 @@ public class SearchCheckoutRecordByMember {
 
 	public void defineTopPanel() {
 		topPanel = new JPanel();
-		JLabel AddBookLabel = new JLabel("Search checkout record");
+		JLabel AddBookLabel = new JLabel("Search Checkout Record");
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
-		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5));
+		AddBookLabel.setForeground(Color.BLUE.darker().darker());
+		AddBookLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		topPanel.add(AddBookLabel);
 	}
 
@@ -68,7 +63,7 @@ public class SearchCheckoutRecordByMember {
 		addItemPanel.setLayout(new BorderLayout());
 
 		JPanel N1 = new JPanel();
-		N1.setLayout(new FlowLayout(FlowLayout.CENTER));
+		N1.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 4));
 		JLabel name1 = new JLabel("Member ID");
 		memberID = new JTextField(10);
 		N1.add(name1);
@@ -76,9 +71,9 @@ public class SearchCheckoutRecordByMember {
 		addItemPanel.add(N1, BorderLayout.NORTH);
 
 		JPanel addItemPanel1 = new JPanel();
-		addItemPanel1.setLayout(new BorderLayout());
+		addItemPanel1.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 4));
 		checkAvailableButton = new JButton("Search");
-		addItemPanel1.add(checkAvailableButton, BorderLayout.SOUTH);
+		addItemPanel1.add(checkAvailableButton);
 
 		checkAvailableButton.addActionListener(new SubmitLoginListener());
 
@@ -106,19 +101,18 @@ public class SearchCheckoutRecordByMember {
 				member.displayRecord();
 
 			} else {
-				StatusPanel.STATUS_INSTANCE.setStatus("Member ID not found");
+				StatusPanel.STATUS_INSTANCE.setStatus("Member ID not found!");
 			}
 
 		}
 	}
 
-	public static void main(String[] args) {
-		JFrame a = new JFrame();
-		a.setSize(640, 360);
-		JPanel mainPanel = new SearchCheckoutRecordByMember().getMainPanel();
-		a.add(mainPanel);
-		a.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		JFrame a = new JFrame();
+//		a.setSize(640, 360);
+//		JPanel mainPanel = new SearchCheckoutRecordByMember().getMainPanel();
+//		a.add(mainPanel);
+//		a.setVisible(true);
+//	}
 
 }
-
